@@ -16,6 +16,7 @@
     src="https://registry.npmmirror.com/leaflet-polylinedecorator/1.6.0/files/dist/leaflet.polylineDecorator.js"></script>
   <script src="https://cdn.iocdn.cc/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js"></script>
   <script src="https://opengeo.tech/maps/leaflet-search/dist/leaflet-search.src.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
 
   <style>
     html,
@@ -910,14 +911,11 @@
         map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
       }
 
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    // }).addTo(map);
-    L.tileLayer('http://wprd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}', {
-    }).addTo(map);
-
-    var searchLayer = L.layerGroup().addTo(map);
-    map.addControl( new L.Control.Search({layer: searchLayer}) )
+      // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      // }).addTo(map);
+      L.tileLayer('http://wprd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}', {
+      }).addTo(map);
 
       // 移除默认右上角的缩放按钮
       map.zoomControl.remove();
@@ -940,6 +938,63 @@
       showAllRoute(map);
 
       showAllArea(map);
+
+
+      // var searchLayer = L.layerGroup().addTo(map);
+      var markers = L.markerClusterGroup({});
+			var all = [];
+			for (var i = 0; i < mapInfo.mapPois.length; i++) {
+				var item = mapInfo.mapPois[i].poi;
+				if (all.includes(item.title)) {
+					continue;
+				} else {
+					all.push(item.title)
+				}
+
+				// var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
+				var title = '<div style="font-weight:bold;width:200px;">' + item.title + '</div>' +
+
+					// '<img src="' + img + '" alt="' + item.personLabel + '" style="float:left;margin:3px 10px 3px 0;" />' +
+					'<div style="font-style:italic">' + (item.lat + item.lng) + '</div>';
+				if (item.hasOwnProperty("movementLabel")) {
+					title += '<div>Belongs to <b>' + item.movementLabel + '</b></div>';
+				}
+				if (item.hasOwnProperty("place_of_deathLabel")) {
+					title += '<div>Died in <b>' + item.place_of_deathLabel + '</b></div>';
+				}
+				if (item.hasOwnProperty("article")) {
+					title += '<div><a href="' + item.article + '" target="_blank">Read more</a>...</div>';
+				}
+        
+
+				var marker = L.marker(new L.LatLng(item.lat, item.lng), {
+					title: item.title
+				});
+				marker.bindPopup(title);
+				markers.addLayer(marker);
+			}
+
+			map.addLayer(markers);
+
+      var searchControl = new L.Control.Search({
+        position: 'topright',
+        layer: markers,
+        initial: false,
+        zoom: 14,
+        marker: false,
+        moveToLocation: function (latlng, title, map) {
+          // var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+          map.setView(latlng, 14);
+        }
+      });
+      // https://github.com/stefanocudini/leaflet-search
+      // https://github.com/Leaflet/Leaflet.markercluster
+      searchControl.on('search:locationfound', function(e) {
+          markers.zoomToShowLayer(e.layer, function() {
+            // if (e.layer._popup) e.layer.openPopup();
+          });
+        });
+      map.addControl(searchControl);
     }
 
 
