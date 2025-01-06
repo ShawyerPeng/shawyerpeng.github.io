@@ -5,18 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>上海网球场地图</title>
-  <link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/normalize/8.0.1/normalize.min.css" type="text/css"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.css" type="text/css"
-    rel="stylesheet" />
-  <link href="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.css" type="text/css"
-    rel="stylesheet" />
+  <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/normalize/8.0.1/normalize.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.css" type="text/css" />
+  <link rel="stylesheet" href="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+  <link rel="stylesheet" href="js/leaflet-tag-filter-button.css" />
   <script src="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.js" type="text/javascript"></script>
-  <script
-    src="https://registry.npmmirror.com/leaflet-polylinedecorator/1.6.0/files/dist/leaflet.polylineDecorator.js"></script>
+  <script src="https://registry.npmmirror.com/leaflet-polylinedecorator/1.6.0/files/dist/leaflet.polylineDecorator.js"></script>
   <script src="https://cdn.iocdn.cc/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js"></script>
   <script src="https://opengeo.tech/maps/leaflet-search/dist/leaflet-search.src.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+  <script src="js/leaflet-tag-filter-button.js"></script>
 
   <script>
     var _hmt = _hmt || [];
@@ -108,6 +108,17 @@
     p {
       display:inline-block;
       height: 10px;
+    }
+
+    .easy-button-button {
+      display: block !important;
+    }
+
+    .tag-filter-tags-container {
+      position: fixed;
+      z-index: 1000;
+      top: 20px;
+      left: 25px;
     }
 </style>
 </head>
@@ -289,7 +300,12 @@
         }
         title += '</div>'
 
-        var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title }).addTo(map);
+        tags = [poi.StadiumType]
+        if (poi.StadiumType == '室内和室外') {
+          tags[0] = '室内'
+          tags[1] = '室外'
+        }
+        var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags }).addTo(map);
         marker.bindTooltip(poi.title, { permanent: true, direction: 'top', offset: [0, -24], className: 'my-marker' })
           .openTooltip();
         marker.bindPopup(title, {offset: [0, -24]});
@@ -424,6 +440,14 @@
 
       // 显示地图比例尺到左下角，不显示英尺单位
       L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
+
+      // 过滤器
+      L.control.tagFilterButton({
+        data: ['室内', '室外', '半室内'],
+        icon: '<img src="filter.png">',
+        clearText: "重置",
+        filterOnEveryClick: true
+      }).addTo(map);
 
       fetchPois(map)
     }
