@@ -176,6 +176,7 @@
                   SportsType: tmp.SportsType,
                   StadiumBizType: tmp.StadiumBizType,
                   StadiumTel: tmp.StadiumTel,
+                  ReservationPlatform: tmp.ReservationPlatform,
                   CountyName : tmp.CountyName,
                   Address : tmp.Address,
                   Detail : tmp.Detail,
@@ -288,6 +289,9 @@
         }
         if (poi.StadiumTel != "") {
           title += '<div style="my-popup"><p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + '  '
+        }
+        if (poi.ReservationPlatform != "") {
+          title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + '  '
         }
         if (poi.MinPrice > 0) {
           title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + '  '
