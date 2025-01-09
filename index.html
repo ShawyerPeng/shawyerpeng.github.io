@@ -284,8 +284,13 @@
         if (poi.hasOwnProperty("Address")) {
           title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
         }
-        if (poi.hasOwnProperty("article")) {
-          title += '<div><a href="' + poi.article + '" target="_blank">Read more</a>...</div>';
+        const ua = navigator.userAgent;
+        if (/iPhone|iPad|iPod|iOS/.test(ua)) {
+          title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+          title += '<a href="iosamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+        } else if (/Android|android/.test(ua)) {
+          title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+          title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
         }
         if (poi.StadiumTel != "") {
           title += '<div style="my-popup"><p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + '  '
