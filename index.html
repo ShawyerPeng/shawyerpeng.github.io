@@ -167,6 +167,7 @@
             mapInfo.mapPois[idx++] = {
               poi: {
                   title: tmp.StadiumName,
+                  Status: tmp.Status,
                   lng: parseFloat(tmp.LngLat.split(',')[0]),
                   lat: parseFloat(tmp.LngLat.split(',')[1]),
                   Address: tmp.Address,
@@ -275,8 +276,11 @@
         var poi = mapInfo.mapPois[i].poi;
 
         // var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
-				// var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
+        // var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
         var title = '<div> <b>' + poi.title + '</b>'
+        if (poi.Status == 2) {
+          title += '<p class="post-category post-category-red">' + '已歇业' + '</p>';
+        }
         if (poi.StadiumType != "" || poi.CourtType != "") {
           title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p></div>';
         }
@@ -352,7 +356,17 @@
           tags.push('多球租赁')
         }
 
+
         var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags }).addTo(map);
+        if (poi.Status == 2) {
+          var markerIcon2 = L.icon({
+            iconUrl: "marker2.png",
+            iconSize: [24, 24],
+            iconAnchor: [12, 22],
+          });
+          var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags }).addTo(map);
+        }
+        
         marker.bindTooltip(poi.title, { permanent: true, direction: 'top', offset: [0, -24], className: 'my-marker' })
           .openTooltip();
         marker.bindPopup(title, {offset: [0, -24]});
