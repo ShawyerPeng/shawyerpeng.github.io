@@ -204,7 +204,7 @@
 
     function showMap(map) {
       var markerIcon = L.icon({
-        iconUrl: "marker.png",
+        iconUrl: "icon/marker.png",
         iconSize: [24, 24],
         iconAnchor: [12, 22],
       });
@@ -365,21 +365,21 @@
         var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags });
         if (poi.Status == 2) {
           var markerIcon2 = L.icon({
-            iconUrl: "marker2.png",
+            iconUrl: "icon/marker2.png",
             iconSize: [24, 24],
             iconAnchor: [12, 22],
           });
           marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
         } else if (poi.Level == 1) {
           var markerIcon2 = L.icon({
-            iconUrl: "crown.png",
+            iconUrl: "icon/crown.png",
             iconSize: [24, 24],
             iconAnchor: [12, 22],
           });
           marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
         } else if (poi.Level == 2) {
           var markerIcon2 = L.icon({
-            iconUrl: "diamond.png",
+            iconUrl: "icon/diamond.png",
             iconSize: [24, 24],
             iconAnchor: [12, 22],
           });
