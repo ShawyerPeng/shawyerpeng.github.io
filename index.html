@@ -180,6 +180,7 @@
                   CourtType : tmp.CourtType,
                   SportsType: tmp.SportsType,
                   StadiumBizType: tmp.StadiumBizType,
+                  Level: tmp.Level,
                   StadiumTel: tmp.StadiumTel,
                   ReservationPlatform: tmp.ReservationPlatform,
                   CountyName : tmp.CountyName,
@@ -361,15 +362,30 @@
         }
 
 
-        var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags }).addTo(map);
+        var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags });
         if (poi.Status == 2) {
           var markerIcon2 = L.icon({
             iconUrl: "marker2.png",
             iconSize: [24, 24],
             iconAnchor: [12, 22],
           });
-          var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags }).addTo(map);
+          marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+        } else if (poi.Level == 1) {
+          var markerIcon2 = L.icon({
+            iconUrl: "crown.png",
+            iconSize: [24, 24],
+            iconAnchor: [12, 22],
+          });
+          marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+        } else if (poi.Level == 2) {
+          var markerIcon2 = L.icon({
+            iconUrl: "diamond.png",
+            iconSize: [24, 24],
+            iconAnchor: [12, 22],
+          });
+          marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
         }
+        marker.addTo(map);
         
         marker.bindTooltip(poi.title, { permanent: true, direction: 'top', offset: [0, -24], className: 'my-marker' })
           .openTooltip();
