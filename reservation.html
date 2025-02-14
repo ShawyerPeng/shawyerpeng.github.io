@@ -1,0 +1,281 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="selectVenueSession.css" />
+        <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="https://unpkg.com/element-plus"></script>
+        <!-- <script src="selectVenueSession.js"></script> -->
+    </head>
+
+    <style>
+        .scrollbar-flex-content {
+            display: flex;
+            height: 100%;
+        }
+        .cab .is-horizontal {
+            display: none;
+        }
+        /* 隐藏横向滚动条 */
+        /* .el-scrollbar .el-scrollbar__wrap .el-scrollbar__view {
+            overflow-x: hidden;
+        } */
+    </style>
+
+    <div id="app" class="lkContainerView">
+        <div>
+            <div style="height: 170px; display: flex" class="cab" >
+                <el-scrollbar class="topDateView scrollbar-flex-content">
+                    <div class="topDateView_scConView">
+                        <div @click.stop="clickSelectDate" class="topDateView_item titleFont_PF_M_30" :class="selectDate==index?'topDateView_item_sel':''" :data-index="index" :data-item="JSON.stringify(item)" v-for="(item, index) in dateArr" :key="item.id">
+                            <div>{{item.day}}</div>
+                            <div>{{item.date}}</div>
+                        </div>
+                    </div>
+                </div>
+                </el-scrollbar>
+            </div>
+            <div class="selBGView">
+                <div class="sessionBGView">
+                    <div class="sessionView titleFont_PF_R_26" v-for="(sessionItem, sessionIndex) in allSessionMsg.data" :key="sessionItem.id">
+                        <div class="sessionName">{{sessionItem.project_name}}</div>
+                    </div>
+                </div>
+                <div class="timeView">
+                    <div v-for="(pitem, index) in allSessionMsg.data">
+                        <div v-if="index==0">
+                            <div class="timvView_item" v-for="(item, index) in pitem.data" :key="item.bind_id">{{item.time}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bookTimeBGView">
+                    <div class="bookTimeView" :data-index="sessionIndex" :data-item="sessionItem" v-for="(sessionItem, sessionIndex) in allSessionMsg.data" :key="sessionItem.id">
+                        <div class="bookTimeItem titleFont_PF_R_26" v-show="index!=sessionItem.data.length-1" v-for="(item, index) in sessionItem.data" :key="item.bind_id">
+                            <div @click="clickSel" :class="['bookTimeContent', item.is_sign==1 ? 'bookTimeContent_finish' : (item.sel==true ? 'bookTimeContent_sel' : '')]" :data-index="index" :data-item="item" :data-superindex="sessionIndex" :data-superitem="sessionItem">{{item.is_sign==1?'售罄':'¥'+item.price}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="tipsView titleFont_PF_R_26">
+                <div class="tipsView_one_l"></div>
+                <div class="tipsView_one_r">可预定</div>
+                <div class="tipsView_two_l"></div>
+                <div class="tipsView_two_r">已被预定</div>
+                <div class="tipsView_thr_l"></div>
+                <div class="tipsView_thr_r">我的选择</div>
+            </div> -->
+            <!-- <div class="selectedView">
+                <div class="selectedView_title titleFont_PF_R_26">已选场次 ({{selTimeCount}})</div>
+                <div scrollX="true">
+                    <div class="selectedView_cont titleFont_PF_R_24">
+                        <div class="selectedView_superItem" v-for="superItem in allSessionMsg.data" :key="superItem.id">
+                            <div class="selectedView_childTime" hidden="{{item.sel==false||item.sel==undefined}}" v-for="item in superItem.data" :key="item.bind_id">
+                                <div class="selectedView_item_time">{{item.showTime}}</div>
+                                <div class="selectedView_item_venue">{{superItem.project_name}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div class="botView">
+                <span class="botView_title_1 titleFont_PF_R_28">总计</span>
+                <span class="botView_title_2 titleFont_PF_R_26">¥</span>
+                <span class="botView_title_2 titleFont_PF_R_40">{{selAllPrice}}</span>
+                <div @click.stop="clickToCommitOrder" class="doneBtn">提交订单</div>
+            </div> -->
+            <!-- <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p> -->
+        </div>
+    </div>
+
+
+    <script>
+        const { createApp, ref } = Vue
+      
+        createApp({
+            data() {
+                return {
+                    dateArr: [],
+                    selectDate: "0",
+                    allSessionMsg: '',
+                    category_id: "",
+                    selTimeCount: 0,
+                    selAllPrice: 0,
+                    bookings: [],
+                    dialogVisible: true
+                };
+            },
+            setup() {
+                const message = ref('Hello vue!');
+                return {
+                    message
+                }
+            },
+            mounted() {
+                this.selectDate = 0;
+                this.selTimeCount = 0;
+                this.selAllPrice = 0;
+                this.requestSessionMsg(getCurrentDate());
+            },
+
+            methods: {
+                requestSessionMsg(s) {
+                    // var i = this;
+                    // var n = {
+                    //     api_token: null == a.globalData.user.api_token ? "" : a.globalData.user.api_token,
+                    //     id: i.data.category_id,
+                    //     date: s
+                    // };
+                    // console.log(n)
+                    requestSessionMsgStr = '{"code":0,"msg":"ok","data":{"detail":{"num":10,"min_time":1,"max_time":100},"week_date":["2025-02-12","2025-02-13","2025-02-14","2025-02-15","2025-02-16","2025-02-17","2025-02-18"],"data":[{"id":502,"project_name":"1号场","data":[{"time":"08:00","bind_id":11505,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","name":"","phone":"17858169703"},{"time":"08:30","bind_id":11505,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","name":"","phone":"17858169703"},{"time":"09:00","bind_id":11514,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","name":"","phone":"13816906207"},{"time":"09:30","bind_id":11514,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","name":"","phone":"13816906207"},{"time":"10:00","bind_id":11516,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"15874806185"},{"time":"10:30","bind_id":11516,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"15874806185"},{"time":"11:00","bind_id":11517,"is_sign":1,"price":"140.00","week":",1,2,3,4,"},{"time":"11:30","bind_id":11517,"is_sign":1,"price":"140.00","week":",1,2,3,4,"},{"time":"12:00","bind_id":11518,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"19521396866"},{"time":"12:30","bind_id":11518,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"19521396866"},{"time":"13:00","bind_id":11519,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"19521396866"},{"time":"13:30","bind_id":11519,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"19521396866"},{"time":"14:00","bind_id":11520,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,","name":"","phone":"19521396866"},{"time":"14:30","bind_id":11520,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,","name":"","phone":"19521396866"},{"time":"15:00","bind_id":11521,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"15:30","bind_id":11521,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"16:00","bind_id":11223,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"16:30","bind_id":11223,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"17:00","bind_id":11224,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","name":"","phone":"13505179337"},{"time":"17:30","bind_id":11224,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","name":"","phone":"13505179337"},{"time":"18:00","bind_id":11622,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"18:30","bind_id":11622,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"19:00","bind_id":11623,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"19:30","bind_id":11623,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"20:00","bind_id":11624,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄","name":"","phone":"18512101515"},{"time":"20:30","bind_id":11624,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄","name":"","phone":"18512101515"},{"time":"21:00","bind_id":11631,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄","name":"","phone":"18512101515"},{"time":"21:30","bind_id":11631,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄","name":"","phone":"18512101515"}]},{"id":503,"project_name":"2号场","data":[{"time":"08:00","bind_id":11522,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","name":"","phone":"13918777109"},{"time":"08:30","bind_id":11522,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","name":"","phone":"13918777109"},{"time":"09:00","bind_id":11523,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","name":"","phone":"13918695664"},{"time":"09:30","bind_id":11523,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","name":"","phone":"13918695664"},{"time":"10:00","bind_id":11524,"is_sign":1,"price":"140.00","week":",1,2,3,4,"},{"time":"10:30","bind_id":11524,"is_sign":1,"price":"140.00","week":",1,2,3,4,"},{"time":"11:00","bind_id":11525,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"13761229143"},{"time":"11:30","bind_id":11525,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"13761229143"},{"time":"12:00","bind_id":11526,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"13761229143"},{"time":"12:30","bind_id":11526,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"13761229143"},{"time":"13:00","bind_id":11527,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"15601875867"},{"time":"13:30","bind_id":11527,"is_sign":1,"price":"140.00","week":",1,2,3,4,","name":"","phone":"15601875867"},{"time":"14:00","bind_id":11530,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"14:30","bind_id":11530,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"15:00","bind_id":11529,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"15:30","bind_id":11529,"is_sign":1,"price":"200.00","week":",1,2,3,4,5,"},{"time":"16:00","bind_id":11241,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"16:30","bind_id":11241,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"17:00","bind_id":11242,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"17:30","bind_id":11242,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,"},{"time":"18:00","bind_id":11632,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"18:30","bind_id":11632,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"19:00","bind_id":11636,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"19:30","bind_id":11636,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"20:00","bind_id":0,"is_sign":0,"price":"300.00","week":"","remark":"（王忆宁一对一私教课 孔教练）"},{"time":"20:30","bind_id":0,"is_sign":0,"price":"300.00","week":"","remark":"（王忆宁一对一私教课 孔教练）"},{"time":"21:00","bind_id":11635,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"21:30","bind_id":11635,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "}]},{"id":504,"project_name":"3号场","data":[{"time":"08:00","bind_id":11667,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","remark":"已售罄","name":"","phone":"18621182155"},{"time":"08:30","bind_id":11667,"is_sign":1,"price":"60.00","week":",1,2,3,4,5,","remark":"已售罄","name":"","phone":"18621182155"},{"time":"09:00","bind_id":11652,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","remark":"已售罄","name":"","phone":"18117571351"},{"time":"09:30","bind_id":11652,"is_sign":1,"price":"100.00","week":",1,2,3,4,5,","remark":"已售罄","name":"","phone":"18117571351"},{"time":"10:00","bind_id":11831,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"10:30","bind_id":11831,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"11:00","bind_id":11832,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"11:30","bind_id":11832,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"12:00","bind_id":11833,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"12:30","bind_id":11833,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"13:00","bind_id":11834,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"13:30","bind_id":11834,"is_sign":1,"price":"140.00","week":"","remark":"已售罄"},{"time":"14:00","bind_id":11835,"is_sign":1,"price":"200.00","week":"","remark":"已售罄"},{"time":"14:30","bind_id":11835,"is_sign":1,"price":"200.00","week":"","remark":"已售罄"},{"time":"15:00","bind_id":11836,"is_sign":1,"price":"200.00","week":"","remark":"已售罄"},{"time":"15:30","bind_id":11836,"is_sign":1,"price":"200.00","week":"","remark":"已售罄"},{"time":"16:00","bind_id":11661,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"16:30","bind_id":11661,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"17:00","bind_id":11662,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"17:30","bind_id":11662,"is_sign":1,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄"},{"time":"18:00","bind_id":11690,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"18:30","bind_id":11690,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"19:00","bind_id":11664,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"19:30","bind_id":11664,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":"已售罄 "},{"time":"20:00","bind_id":12988,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":""},{"time":"20:30","bind_id":12988,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":""},{"time":"21:00","bind_id":12988,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":""},{"time":"21:30","bind_id":12988,"is_sign":0,"price":"300.00","week":",1,2,3,4,5,6,7,","remark":""}]}]}}';
+                    var resp = JSON.parse(requestSessionMsgStr)
+                    var t = resp.data
+                    console.log("tttt", t)
+                    t.data.forEach(function(a) {
+                        var t = a.data, e = t[t.length - 1].time.split(":"), s = {
+                            time: "",
+                            bind_id: 0,
+                            is_sign: 0,
+                            price: "",
+                            week: ""
+                        };
+                        if ("00" == e[1]) s.time = e[0] + ":30"; else {
+                            var i = parseInt(e[0]);
+                            s.time = i < 24 ? i + 1 + ":00" : "01:00";
+                        }
+                        t.push(s);
+                    })
+                    this.allSessionMsg = t
+                    console.log("11111", t);
+                    this.makeUI();
+
+                    // t.requestData(e.venueSessionMsg_url, "POST", n, function(a) {
+                    //     console.log("场地预约信息", a);
+                    //     var t = a.data;
+                    //     t.data.forEach(function(a) {
+                    //         var t = a.data, e = t[t.length - 1].time.split(":"), s = {
+                    //             time: "",
+                    //             bind_id: 0,
+                    //             is_sign: 0,
+                    //             price: "",
+                    //             week: ""
+                    //         };
+                    //         if ("00" == e[1]) s.time = e[0] + ":30"; else {
+                    //             var i = parseInt(e[0]);
+                    //             s.time = i < 24 ? i + 1 + ":00" : "01:00";
+                    //         }
+                    //         t.push(s);
+                    //     }), i.setData({
+                    //         allSessionMsg: t
+                    //     }), console.log("11111", i.data.allSessionMsg), i.makeUI();
+                    // });
+                },
+
+                clickSelectDate: function(a) {
+                    var t = JSON.parse(a.currentTarget.dataset.item);
+                    e = a.currentTarget.dataset.index;
+                    console.log("选择日期", a.currentTarget.dataset)
+                    this.selectDate = e;
+                    this.selTimeCount = 0;
+                    this.selAllPrice = 0;
+                    console.log("fullDate", t.fullDate)
+                    this.requestSessionMsg(t.fullDate);
+                },
+
+                getTime: function(a) {
+                    var t = a.split(":"), e = "";
+                    if ("00" == t[1]) e = t[0] + ":30"; else if (t[0] <= 24) {
+                        var s = parseInt(t[0]) + 1;
+                        e = s < 10 ? "0" + s + ":00" : s + ":00";
+                    } else e = "00:00";
+                    return e;
+                },
+
+                clickSel: function(a) {
+                    var t = a.currentTarget.dataset.index, e = a.currentTarget.dataset.item, s = a.currentTarget.dataset.superindex, i = a.currentTarget.dataset.superitem;
+                    if (1 != e.is_sign) {
+                        if (this.$data.selTimeCount >= this.$data.allSessionMsg.detail.num) {
+                            // wx.showToast({
+                            //     icon: "none",
+                            //     title: "已达到预定场数限制"
+                            // });
+                            alert('已达到预定场数限制')
+                        } else {
+                            var n = this.$data.selTimeCount, l = 100 * this.$data.selAllPrice;
+                            if (e.sel = null == e.sel || 0 == e.sel, 0 != e.bind_id) for (var o = 0; o < this.$data.allSessionMsg.data.length; o++) for (var d = 0; d < this.$data.allSessionMsg.data[o].data.length; d++) e.bind_id == this.$data.allSessionMsg.data[o].data[d].bind_id && (this.$data.allSessionMsg.data[o].data[d].sel = e.sel);
+                            if (e.id = i.id, e.name = i.project_name, 0 != e.bind_id) for (var r = 0; r < this.$data.allSessionMsg.data.length; r++) for (var g = 0; g < this.$data.allSessionMsg.data[r].data.length; g++) e.bind_id == this.$data.allSessionMsg.data[r].data[g].bind_id && (1 == this.$data.allSessionMsg.data[r].data[g].sel ? (n += 1, 
+                            l += 100 * this.$data.allSessionMsg.data[r].data[g].price) : (n -= 1, l -= 100 * this.$data.allSessionMsg.data[r].data[g].price)); else e.showTime = e.time + "-" + this.getTime(e.time), 
+                            1 == e.sel ? (n += 1, l += 100 * e.price) : (n -= 1, l -= 100 * e.price);
+                            l /= 100;
+                            var c = this.$data.allSessionMsg;
+                            if (0 != e.bind_id) {
+                                for (var h = 0; h < this.$data.allSessionMsg.data.length; h++) {
+                                    for (var u = 0; u < this.$data.allSessionMsg.data[h].data.length; u++) {
+                                        e.bind_id == this.$data.allSessionMsg.data[h].data[u].bind_id;
+                                        this.$data.allSessionMsg.data[h].data[u].showTime = this.$data.allSessionMsg.data[h].data[u].time + "-" + this.getTime(this.$data.allSessionMsg.data[h].data[u].time)
+                                        c.data[h].data[u] = this.$data.allSessionMsg.data[h].data[u];
+                                        this.$data.allSessionMsg.data[h].data[u].id = e.id;
+                                    }
+                                }
+                            } else {
+                                c.data[s].data[t] = e;
+                            }
+                            this.allSessionMsg = c;
+                            this.selTimeCount = n;
+                            this.selAllPrice = l;
+                        }
+                    } else {
+                        alert('已售罄')
+                        // wx.showToast({
+                        //     icon: "none",
+                        //     title: "已售罄"
+                        // });
+                    }
+                },
+
+                makeUI() {
+                    this.getSevenDays()
+                    this.getRightViewHei()
+                },
+
+                getSevenDays() {
+                    for (var a = [ "周日", "周一", "周二", "周三", "周四", "周五", "周六" ], t = [], e = 0; e < 7; e++) {
+                        var s = new Date();
+                        s.setDate(s.getDate() + e);
+                        var i = s.getFullYear(), n = 0 == e ? "今天" : a[s.getDay()], l = s.getMonth() + 1;
+                        l = l < 10 ? "0" + l.toString() : l.toString();
+                        var o = s.getDate() < 10 ? "0" + s.getDate().toString() : s.getDate().toString(), d = {
+                            day: n,
+                            date: l + "." + o,
+                            formatDate: l + "-" + o,
+                            fullDate: i + "-" + l + "-" + o,
+                            id: e.toString()
+                        };
+                        t[e] = d;
+                    }
+                    console.log(t)
+                    this.dateArr = t
+                },
+
+                getRightViewHei() {
+                    this.scHei = 1000
+                    // var a = parseInt(.12 * wx.getSystemInfoSync().windowWidth), t = parseInt(130 / 750 * wx.getSystemInfoSync().windowWidth), e = this.$data.allSessionMsg.data;
+                    // 0 != e.length && (a = a * e[0].data.length + t, this.setData({
+                    //     scHei: 1000
+                    // }));
+                },
+            }
+        }).use(ElementPlus).mount('#app')
+
+
+
+        function getCurrentDate() {
+            var e = new Date();
+            t = e.getMonth() + 1;
+            t = t > 9 ? t : "0" + t;
+            var n = e.getDate();
+            return n = n > 9 ? n : "0" + n, e.getFullYear() + "-" + t + "-" + n;
+        }
+
+      </script>
+    
+</html>

@@ -1,0 +1,276 @@
+.lkContainerView {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-bottom: 160px;
+    width: 100vw;
+}
+
+.topDateView {
+    background-color: #5889fb;
+    height: 168px;
+    width: auto;
+}
+
+.topDateView_scConView {
+    display: flex;
+    flex-direction: row;
+    height: 168px;
+    padding-right: 22px;
+    width: max-content;
+}
+
+.topDateView_item {
+    background-color: hsla(0,0%,100%,.1);
+    border-radius: 10px;
+    color: #fff;
+    height: 90px;
+    line-height: 40px;
+    margin-left: 26px;
+    margin-right: 4px;
+    margin-top: 34px;
+    padding-top: 10px;
+    text-align: center;
+    width: 100px;
+}
+
+.topDateView_item_sel {
+    background-color: #fff;
+    color: #5789fb;
+}
+
+.selBGView {
+    height: 855px;
+    overflow: scroll;
+    position: relative;
+    width: 100vw;
+}
+
+.sessionBGView {
+    display: flex;
+    flex-direction: row;
+    margin-left: 200px;
+    position: sticky;
+    top: 0px;
+    width: max-content;
+    z-index: 800;
+}
+
+.sessionBGView,.sessionView {
+    background-color: #fff;
+    height: 130px;
+}
+
+.sessionView {
+    color: #131519;
+    margin-right: 20px;
+    text-align: center;
+    width: 180px;
+}
+
+.sessionName {
+    height: 50%;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 150px;
+}
+
+.timeView {
+    background-color: #fff;
+    height: max-content;
+    left: 0px;
+    margin-top: -130px;
+    padding-top: 85px;
+    position: sticky;
+    width: 200px;
+    z-index: 900;
+}
+
+.timvView_item {
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+}
+
+.bookTimeBGView {
+    display: flex;
+    flex-direction: row;
+    height: 300px;
+    left: 200px;
+    position: absolute;
+    top: 130px;
+    width: max-content;
+}
+
+.bookTimeView {
+    height: max-content;
+    margin-right: 20px;
+    width: 180px;
+}
+
+.bookTimeItem {
+    height: 90px;
+    text-align: center;
+}
+
+.bookTimeContent {
+    background-color: #fff;
+    border: 1px solid #5678fb;
+    color: #5678fb;
+    height: 50%;
+    height: 70px;
+    line-height: 70px;
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 176px;
+}
+
+.bookTimeContent_finish {
+    background-color: #e7e9ef;
+    border: 1px solid #e7e9ef;
+    color: #959fb7;
+}
+
+.bookTimeContent_sel {
+    background-color: #5678fb;
+    border: 1px solid #5678fb;
+    color: #fff;
+}
+
+.tipsView {
+    box-shadow: 0px -10px 10px hsla(60,22%,82%,.2);
+    height: 105px;
+    position: relative;
+    width: 100%;
+    z-index: 911;
+}
+
+.tipsView_one_l {
+    border: 1px solid #5789fb;
+    height: 24px;
+    left: 147px;
+    position: absolute;
+    top: 40px;
+    width: 24px;
+}
+
+.tipsView_one_r {
+    height: 100%;
+    left: 182px;
+    line-height: 105px;
+    position: absolute;
+}
+
+.tipsView_two_l {
+    background-color: #e7e9ef;
+    height: 26px;
+    left: 296px;
+    position: absolute;
+    top: 40px;
+    width: 26px;
+}
+
+.tipsView_two_r {
+    height: 100%;
+    left: 332px;
+    line-height: 105px;
+    position: absolute;
+}
+
+.tipsView_thr_l {
+    background-color: #5789fb;
+    height: 26px;
+    left: 470px;
+    position: absolute;
+    top: 40px;
+    width: 26px;
+}
+
+.tipsView_thr_r {
+    height: 100%;
+    left: 504px;
+    line-height: 105px;
+    position: absolute;
+}
+
+.selectedView {
+    height: 240px;
+    width: 100%;
+}
+
+.selectedView_title {
+    color: #656565;
+    margin-left: 26px;
+}
+
+.selectedView_cont {
+    padding-left: 26px;
+    padding-right: 6px;
+    width: max-content;
+}
+
+.selectedView_cont,.selectedView_superItem {
+    display: flex;
+    flex-direction: row;
+}
+
+.selectedView_superItem {
+    height: max-content;
+    margin-top: 20px;
+    min-width: max-content;
+    text-align: center;
+}
+
+.selectedView_childTime {
+    border: 1px solid #5789fb;
+    border-radius: 3px;
+    height: 128px;
+    margin-right: 20px;
+    width: 184px;
+}
+
+.selectedView_item_time {
+    background-color: #5678fb;
+    color: #fff;
+    height: 48px;
+    line-height: 48px;
+}
+
+.selectedView_item_venue {
+    color: #131519;
+    height: 140px;
+    line-height: 30px;
+    padding: 10px 20px 0px;
+}
+
+.botView {
+    background-color: #eef3ff;
+    bottom: 0px;
+    height: 98px;
+    line-height: 98px;
+    position: fixed;
+    width: 100%;
+}
+
+.doneBtn {
+    background-color: #5678fb;
+    color: #fff;
+    float: right;
+    height: 100%;
+    text-align: center;
+    width: 302px;
+}
+
+.botView_title_1 {
+    color: #656565;
+    margin-left: 26px;
+    margin-right: 14px;
+}
+
+.botView_title_2 {
+    color: #5678fb;
+    line-height: 98px;
+}
