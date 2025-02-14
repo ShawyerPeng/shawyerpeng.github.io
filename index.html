@@ -546,15 +546,19 @@
               }
 
               marker.stadiumId = markerId;
+              marker.ReservationPlatform = poi.ReservationPlatform;
 
               // 通过vue的模板字符串创建并渲染到#my_popup节点上
               let vm;
               marker.on('popupopen', e => {
                 const m = e.popup._source;
 
+                // 仅韵动吧上的场馆显示查看可订状态按钮
+                isShowBtn = m.ReservationPlatform.includes("韵动吧");
+
                 vm = createApp({
                   template: `
-                    <el-button type="primary" @click="change">查看场地可订状态</el-button>
+                    <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
                     <div style="position: relative;overflow: hidden;">
                       <el-dialog
                         v-model="dialogVisible"
