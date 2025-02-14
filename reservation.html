@@ -25,7 +25,7 @@
     <div id="app" class="lkContainerView">
         <div>
             <div style="height: 170px; display: flex" class="cab" >
-                <el-scrollbar class="topDateView scrollbar-flex-content">
+                <el-scrollbar v-loading.fullscreen.lock="loading" class="topDateView scrollbar-flex-content">
                     <div class="topDateView_scConView">
                         <div @click.stop="clickSelectDate" class="topDateView_item titleFont_PF_M_30" :class="selectDate==index?'topDateView_item_sel':''" :data-index="index" :data-item="JSON.stringify(item)" v-for="(item, index) in dateArr" :key="item.id">
                             <div>{{item.day}}</div>
@@ -101,7 +101,8 @@
                     selTimeCount: 0,
                     selAllPrice: 0,
                     bookings: [],
-                    dialogVisible: true
+                    dialogVisible: true,
+                    loading: true,
                 };
             },
             setup() {
@@ -180,6 +181,7 @@
                             t.push(s);
                         })
                         this.allSessionMsg = t
+                        this.loading = false;
                         this.makeUI();
                     })
                     .catch(error => {
@@ -188,6 +190,7 @@
                 },
 
                 clickSelectDate: function(a) {
+                    this.loading = true;
                     var t = JSON.parse(a.currentTarget.dataset.item);
                     e = a.currentTarget.dataset.index;
                     // console.log("选择日期", a.currentTarget.dataset)
