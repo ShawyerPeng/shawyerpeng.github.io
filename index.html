@@ -560,7 +560,7 @@
                         v-model="dialogVisible"
                         fullscreen
                         width="30%">
-                        <iframe src="./reservation.html" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
+                        <iframe src="./reservation.html?stadium_id=` + m.stadiumId + `" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
                       </el-dialog>
                     </div>
                   `,
