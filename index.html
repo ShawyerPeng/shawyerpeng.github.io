@@ -135,6 +135,11 @@
       top: 20px;
       left: 25px;
     }
+
+    .leaflet-popup-content {
+      min-width: 300px;
+      min-height: 500px;
+    }
 </style>
 </head>
 
@@ -440,7 +445,7 @@
 
               // var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
               // var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
-              var title = '<div class="width:300px" height:800px> <b>' + poi.title + '</b>'
+              var title = '<div style="width:300px" height:800px> <b>' + poi.title + '</b>'
               if (poi.Status == 2) {
                 title += '<p class="post-category post-category-red">' + '已歇业' + '</p>';
               }
