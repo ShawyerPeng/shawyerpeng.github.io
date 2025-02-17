@@ -525,29 +525,42 @@
                 tags.push('多球租赁')
               }
 
-
               var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags });
-              if (poi.Status == 2) {
+              if (poi.SportsType == "学练馆") {
                 var markerIcon2 = L.icon({
-                  iconUrl: "icon/marker2.png",
-                  iconSize: [24, 24],
-                  iconAnchor: [12, 22],
-                });
-                marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-              } else if (poi.Level == 1) {
-                var markerIcon2 = L.icon({
-                  iconUrl: "icon/crown.png",
-                  iconSize: [24, 24],
-                  iconAnchor: [12, 22],
-                });
-                marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-              } else if (poi.Level == 2) {
-                var markerIcon2 = L.icon({
-                  iconUrl: "icon/diamond.png",
-                  iconSize: [24, 24],
-                  iconAnchor: [12, 22],
-                });
-                marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+                    iconUrl: "icon/tennis-machine.png",
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 22],
+                  });
+                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+              } else {
+                if (poi.Status == 2) {
+                  var markerIcon2 = L.icon({
+                    iconUrl: "icon/marker2.png",
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 22],
+                  });
+                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+                } else if (poi.Level == 1) {
+                  var markerIcon2 = L.icon({
+                    iconUrl: "icon/crown.png",
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 22],
+                  });
+                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+                } else if (poi.Level == 2) {
+                  var markerIcon2 = L.icon({
+                    iconUrl: "icon/diamond.png",
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 22],
+                  });
+                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
+                } 
+              }
+
+              // 小区的z-index优先级放最低
+              if (poi.StadiumBizType == "小区") {
+                marker.setZIndexOffset(-1000);
               }
 
               marker.stadiumId = markerId;
