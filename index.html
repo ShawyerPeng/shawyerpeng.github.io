@@ -555,7 +555,7 @@
                     iconAnchor: [12, 22],
                   });
                   marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-                } 
+                }
               }
 
               // 小区的z-index优先级放最低
@@ -577,6 +577,7 @@
 
                 vm = createApp({
                   template: `
+                    <el-divider v-if="` + isShowBtn + `"/>
                     <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
                     <div style="position: relative;overflow: hidden;">
                       <el-dialog
