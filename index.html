@@ -592,10 +592,10 @@
 
                         title += '<div>';
                         if (poi.StadiumTel != "") {
-                            title += '<p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + ' '
+                            title += '<p class="post-category post-category-red">电话</p> ' + poi.StadiumTel + ' '
                         }
                         if (poi.ReservationPlatform != "") {
-                            title += '<p class="post-category post-category-red">预订平台</p> ';
+                            title += '<p class="post-category post-category-red">预订方式</p> ';
                             let vals = poi.ReservationPlatform.split(",");
                             for (let i = 0; i < vals.length; i++) {
                                 title += ('<el-tag size="small">' + vals[i] + '</el-tag>');
@@ -606,10 +606,10 @@
                             title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
                         }
                         if (poi.BookableMaxDate != "") {
-                            title += '<p class="post-category post-category-red">最远可订日期</p> ' + poi.BookableMaxDate + ' '
+                            title += '<p class="post-category post-category-red">最远可订</p> ' + poi.BookableMaxDate + ' '
                         }
                         if (poi.ShowHourDesc != "") {
-                            title += '<p class="post-category post-category-red">抢场时间描述</p> ' + poi.ShowHourDesc + ' '
+                            title += '<p class="post-category post-category-red">抢场时间</p> ' + poi.ShowHourDesc + ' '
                         }
                         title += '</div>';
                         // <p><strong>设施信息：</strong> {{FacilityInfos}}</p>
