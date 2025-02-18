@@ -2,585 +2,612 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>上海网球场地图</title>
-  
-  <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/normalize/8.0.1/normalize.min.css" type="text/css" />
-  <link rel="stylesheet" href="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.css" type="text/css" />
-  <link rel="stylesheet" href="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.css" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-  <link rel="stylesheet" href="js/leaflet-tag-filter-button.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.css">
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css" />
-  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
-  <link rel="stylesheet" href="selectVenueSession.css" />
-  <link rel="stylesheet" href="js/leaflet-sidebar.css" />
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>上海网球场地图</title>
 
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.js" type="text/javascript"></script>
-  <script src="https://registry.npmmirror.com/leaflet-polylinedecorator/1.6.0/files/dist/leaflet.polylineDecorator.js"></script>
-  <script src="https://cdn.iocdn.cc/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js"></script>
-  <script src="https://opengeo.tech/maps/leaflet-search/dist/leaflet-search.src.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
-  <script src="js/leaflet-tag-filter-button.js"></script>
-  <script src="js/leaflet-sidebar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
-  <script src="https://unpkg.com/element-plus"></script>
-  
+    <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/normalize/8.0.1/normalize.min.css"
+          type="text/css"/>
+    <link rel="stylesheet" href="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.css" type="text/css"/>
+    <link rel="stylesheet" href="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.css" type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <link rel="stylesheet" href="js/leaflet-tag-filter-button.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.7.2/css/all.css">
+    <link rel="stylesheet"
+          href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css"/>
+    <link rel="stylesheet" href="selectVenueSession.css"/>
+    <link rel="stylesheet" href="js/leaflet-sidebar.css"/>
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?84e5e9f0f48263cffdb4aa9e19d8cbef";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>    
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://registry.npmmirror.com/leaflet/1.9.4/files/dist/leaflet.js" type="text/javascript"></script>
+    <script src="https://registry.npmmirror.com/leaflet-polylinedecorator/1.6.0/files/dist/leaflet.polylineDecorator.js"></script>
+    <script src="https://cdn.iocdn.cc/npm/leaflet-textpath@1.2.3/leaflet.textpath.min.js"></script>
+    <script src="https://opengeo.tech/maps/leaflet-search/dist/leaflet-search.src.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <script src="js/leaflet-tag-filter-button.js"></script>
+    <script src="js/leaflet-sidebar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
+            charset="utf-8"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+    <script src="https://unpkg.com/element-plus"></script>
 
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
 
-    .my-marker {
-      background-color: #964DFF;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-    }
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?84e5e9f0f48263cffdb4aa9e19d8cbef";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
-    .line-arrow {
-      font: bold 5px sans-serif;
-    }
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    .text-label {
-      background-color: transparent;
-      border: none;
-      box-shadow: none;
-      font-weight: bold;
-      color: black;
-      text-shadow:
-        -1px -1px 0 #fff,
-        1px -1px 0 #fff,
-        -1px 1px 0 #fff,
-        1px 1px 0 #fff;
-        opacity: 0.5;
-        font-size: 10px;
-        display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    }
-    .container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-    }
-    #map {
-      width: 100%;
-      height: 100%;
-    }
-    .container #routes{
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
+        .my-marker {
+            background-color: #964DFF;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
 
-    .post-category {
-      margin: 0 0.1em;
-      padding: 0.3em 1em;
-      color: #fff;
-      background: #999;
-      font-size: 80%;
-    }
+        .line-arrow {
+            font: bold 5px sans-serif;
+        }
 
-    .post-category-green {
-      background: #5aba59;
-    }
+        .text-label {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+            font-weight: bold;
+            color: black;
+            text-shadow: -1px -1px 0 #fff,
+            1px -1px 0 #fff,
+            -1px 1px 0 #fff,
+            1px 1px 0 #fff;
+            opacity: 0.5;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
 
-    .post-category-blue {
-      background: #4d85d1;
-    }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
 
-    .post-category-red {
-      background: #df2d4f;
-    }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
 
-    p {
-      display:inline-block;
-      height: 10px;
-    }
+        .container #routes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
 
-    .easy-button-button {
-      display: block !important;
-    }
+        .post-category {
+            margin: 0 0.1em;
+            padding: 0.3em 1em;
+            color: #fff;
+            background: #999;
+            font-size: 80%;
+        }
 
-    .tag-filter-tags-container {
-      position: fixed;
-      z-index: 1000;
-      top: 20px;
-      left: 25px;
-    }
+        .post-category-green {
+            background: #5aba59;
+        }
 
-    .leaflet-popup-content {
-      min-width: 300px;
-      min-height: 500px;
-    }
-</style>
+        .post-category-blue {
+            background: #4d85d1;
+        }
+
+        .post-category-red {
+            background: #df2d4f;
+        }
+
+        p {
+            display: inline-block;
+            height: 10px;
+        }
+
+        .easy-button-button {
+            display: block !important;
+        }
+
+        .tag-filter-tags-container {
+            position: fixed;
+            z-index: 1000;
+            top: 20px;
+            left: 25px;
+        }
+
+        .leaflet-popup-content {
+            min-width: 300px;
+            min-height: 500px;
+        }
+    </style>
 </head>
 
 <body>
-  <div id="app" class="container">
+<div id="app" class="container">
     <!-- <div id="sidebar" class="sidebar collapsed"> -->
-      <!-- Nav tabs -->
-      <!-- <div class="sidebar-tabs">
-          <ul role="tablist">
-              <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-              <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-              <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-              <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
-          </ul>
+    <!-- Nav tabs -->
+    <!-- <div class="sidebar-tabs">
+        <ul role="tablist">
+            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+            <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+            <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+        </ul>
 
-          <ul role="tablist">
-              <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-          </ul>
-      </div> -->
+        <ul role="tablist">
+            <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+        </ul>
+    </div> -->
 
-      <!-- Tab panes -->
-      <!-- <div class="sidebar-content">
-          <div class="sidebar-pane" id="home">
-            <h1 class="sidebar-header">
-                sidebar-v2
-                <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-            </h1>
-            <iframe src="./a.html" overflow:auto></iframe>
+    <!-- Tab panes -->
+    <!-- <div class="sidebar-content">
+        <div class="sidebar-pane" id="home">
+          <h1 class="sidebar-header">
+              sidebar-v2
+              <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+          </h1>
+          <iframe src="./a.html" overflow:auto></iframe>
 
-            <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-          </div>
+          <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
 
-          <div class="sidebar-pane" id="profile">
-            <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-          </div>
+        <div class="sidebar-pane" id="profile">
+          <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+        </div>
 
-          <div class="sidebar-pane" id="settings">
-            <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-          </div>
-      </div> -->
+        <div class="sidebar-pane" id="settings">
+          <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+        </div>
+    </div> -->
     <!-- </div> -->
 
     <div id="map" class="sidebar-map"></div>
-  </div>
+</div>
 
-  <script>
-    const { createApp, ref, defineCustomElement } = Vue
+<script>
+    const {createApp, ref, defineCustomElement} = Vue
 
-    const sharedData = { dialogVisible: false }
+    const sharedData = {dialogVisible: false}
 
     app = createApp({
         data() {
-          return {
-            mapInfo: {"id":630008,"title":"上海网球场大全","cover":"","introduction":"","poiCount":1,"contents":[{"contentId":"RIqwwJWSIL","type":"mapPoi","mapPoiId":6473364,"mapRouteId":null,"text":null,"image":null,"images":null,"sort":65536}],"mapPois":[],"mapRoutes":[],"mapGroups":[],"mapAreas":[]},
-            dialogVisible: false,
-            map: null,
-            markers: [],
-            buttonText: 'Zoom In', // skal bruge ellers skifter den ikke navn
-            animalFilter: '',
-            loading: true, 
-            image: null
-          };
+            return {
+                mapInfo: {
+                    "id": 630008,
+                    "title": "上海网球场大全",
+                    "cover": "",
+                    "introduction": "",
+                    "poiCount": 1,
+                    "contents": [{
+                        "contentId": "RIqwwJWSIL",
+                        "type": "mapPoi",
+                        "mapPoiId": 6473364,
+                        "mapRouteId": null,
+                        "text": null,
+                        "image": null,
+                        "images": null,
+                        "sort": 65536
+                    }],
+                    "mapPois": [],
+                    "mapRoutes": [],
+                    "mapGroups": [],
+                    "mapAreas": []
+                },
+                dialogVisible: false,
+                map: null,
+                markers: [],
+                buttonText: 'Zoom In', // skal bruge ellers skifter den ikke navn
+                animalFilter: '',
+                loading: true,
+                image: null
+            };
         },
         mounted() {
-          if ("json" in this.getQueryParams()) {
-            jsonStr = getQueryParams()['json']
-              jsonObj = eval('('+jsonStr+')')
-              pois = jsonObj['mapPois']
-              console.log(pois)
-              for (var i = 0; i < pois.length; i++) {
-                var obj = pois[i];
-                this.mapInfo.mapPois.push(obj)
-              }
-              console.log(this.mapInfo.mapPois)
-          }
-
-          // 创建地图
-          var map = L.map('map', {
-            tapHold: false,
-          }).setMinZoom(3)
-            .setMaxZoom(19)
-            .setView([31.23, 121.47], 12);
-
-          this.map = map;
-
-          // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          // }).addTo(map);
-          L.tileLayer('https://wprd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}', {
-            attribution: '&copy; <a href="https://docs.qq.com/sheet/DV2tMV1hpR3ROb2RO" target="_blank">访问文档版</a> <a href="https://www.coze.cn/s/iyk66wTe/" target="_blank">上海网球场订场神器</a><br>有疑问请联系作者（微信）：shawyerpeng'
-          }).addTo(map);
-
-          // 移除默认右上角的缩放按钮
-          map.zoomControl.remove();
-
-          // 添加缩放控件到地图的右下角
-          L.control.zoom({ position: 'topright' }).addTo(map);
-
-          // 显示地图比例尺到左下角，不显示英尺单位
-          L.control.scale({ position: 'bottomleft', imperial: false }).addTo(map);
-
-          // 过滤器
-          var tennisFilterButton1 = L.control.tagFilterButton({
-            data: ['室内', '室外', '半室内'],
-            // icon: '<i class="fa-solid fa-filter"></i>',
-            icon: '<i class="fa-solid fa-warehouse"></i>',
-            // icon: '<img src="filter3.png">',
-            clearText: "重置",
-            filterOnEveryClick: true
-          }).addTo(map);
-
-          var tennisFilterButton2 = L.control.tagFilterButton({
-            data: ['网球', '匹克球', '板式网球', '学练馆', '网球墙'],
-            icon: '<i class="fa-solid fa-table-tennis-paddle-ball"></i>',
-            clearText: "重置",
-            filterOnEveryClick: true,
-          }).addTo(map);
-
-          var facilityFilterButton = L.control.tagFilterButton({
-            data: ['空调', '淋浴', '发球机', '多球租赁'],
-            // icon: '<i class="fa-solid fa-screwdriver-wrench"></i>',
-            icon: '<i class="fa-solid fa-person-booth"></i>',
-            clearText: "重置",
-            filterOnEveryClick: true,
-          }).addTo(map);
-
-          tennisFilterButton1.addToReleated(tennisFilterButton2);
-          tennisFilterButton1.addToReleated(facilityFilterButton);
-
-          // 定位插件
-          L.control.locate({
-            position: "topright",
-            drawCircle: true,
-            initialZoomLevel: 15,
-            locateOptions: {
-              enableHighAccuracy: true
+            if ("json" in this.getQueryParams()) {
+                jsonStr = getQueryParams()['json']
+                jsonObj = eval('(' + jsonStr + ')')
+                pois = jsonObj['mapPois']
+                console.log(pois)
+                for (var i = 0; i < pois.length; i++) {
+                    var obj = pois[i];
+                    this.mapInfo.mapPois.push(obj)
+                }
+                console.log(this.mapInfo.mapPois)
             }
-          }).addTo(map);
 
-          // 全屏插件
-          // map.addControl(new L.Control.Fullscreen({
-          //   position:"topright",
-          //   title: {
-          //       'false': '点击全屏',
-          //       'true': '退出全屏'
-          //   }
-          // }));
+            // 创建地图
+            var map = L.map('map', {
+                tapHold: false,
+            }).setMinZoom(3)
+                .setMaxZoom(19)
+                .setView([31.23, 121.47], 12);
 
-          // 侧边栏插件
-          // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+            this.map = map;
 
-          // 获取地图数据
-          this.fetchPois(map)
+            // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            // }).addTo(map);
+            L.tileLayer('https://wprd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}', {
+                attribution: '&copy; <a href="https://docs.qq.com/sheet/DV2tMV1hpR3ROb2RO" target="_blank">访问文档版</a> <a href="https://www.coze.cn/s/iyk66wTe/" target="_blank">上海网球场订场神器</a><br>有疑问请联系作者（微信）：shawyerpeng'
+            }).addTo(map);
+
+            // 移除默认右上角的缩放按钮
+            map.zoomControl.remove();
+
+            // 添加缩放控件到地图的右下角
+            L.control.zoom({position: 'topright'}).addTo(map);
+
+            // 显示地图比例尺到左下角，不显示英尺单位
+            L.control.scale({position: 'bottomleft', imperial: false}).addTo(map);
+
+            // 过滤器
+            var tennisFilterButton1 = L.control.tagFilterButton({
+                data: ['室内', '室外', '半室内'],
+                // icon: '<i class="fa-solid fa-filter"></i>',
+                icon: '<i class="fa-solid fa-warehouse"></i>',
+                // icon: '<img src="filter3.png">',
+                clearText: "重置",
+                filterOnEveryClick: true
+            }).addTo(map);
+
+            var tennisFilterButton2 = L.control.tagFilterButton({
+                data: ['网球', '匹克球', '板式网球', '学练馆', '网球墙'],
+                icon: '<i class="fa-solid fa-table-tennis-paddle-ball"></i>',
+                clearText: "重置",
+                filterOnEveryClick: true,
+            }).addTo(map);
+
+            var facilityFilterButton = L.control.tagFilterButton({
+                data: ['空调', '淋浴', '发球机', '多球租赁'],
+                // icon: '<i class="fa-solid fa-screwdriver-wrench"></i>',
+                icon: '<i class="fa-solid fa-person-booth"></i>',
+                clearText: "重置",
+                filterOnEveryClick: true,
+            }).addTo(map);
+
+            tennisFilterButton1.addToReleated(tennisFilterButton2);
+            tennisFilterButton1.addToReleated(facilityFilterButton);
+
+            // 定位插件
+            L.control.locate({
+                position: "topright",
+                drawCircle: true,
+                initialZoomLevel: 15,
+                locateOptions: {
+                    enableHighAccuracy: true
+                }
+            }).addTo(map);
+
+            // 全屏插件
+            // map.addControl(new L.Control.Fullscreen({
+            //   position:"topright",
+            //   title: {
+            //       'false': '点击全屏',
+            //       'true': '退出全屏'
+            //   }
+            // }));
+
+            // 侧边栏插件
+            // var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(map);
+
+            // 获取地图数据
+            this.fetchPois(map)
         },
         methods: {
-          fetchPois(map, markerIcon) {
-            const postData = {
-              "date_start": "2025-01-01",
-              "date_end": "2025-01-01",
-              "search_type": 3
-            };
+            fetchPois(map, markerIcon) {
+                const postData = {
+                    "date_start": "2025-01-01",
+                    "date_end": "2025-01-01",
+                    "search_type": 3
+                };
 
-            fetch('https://shawyerpeng.cn:8888/labor/api/sports8/list', {
-                method: 'POST',
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  'Origin': 'github.com',
-                },
-                body: JSON.stringify(postData)  // 将JavaScript对象转换为JSON字符串发送
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('网络请求失败，状态码：' + response.status);
+                fetch('https://shawyerpeng.cn:8888/labor/api/sports8/list', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Origin': 'github.com',
+                    },
+                    body: JSON.stringify(postData)  // 将JavaScript对象转换为JSON字符串发送
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('网络请求失败，状态码：' + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log('POST请求成功，返回的数据：', data);
+                        var idx = 0
+                        console.log(this.mapInfo)
+                        for (var i = 0; i < data.data.length; i++) {
+                            tmp = data.data[i]
+                            if (tmp.LngLat == '0,0') {
+                                continue
+                            }
+                            this.mapInfo.mapPois[idx++] = {
+                                poi: {
+                                    id: tmp.StadiumId,
+                                    title: tmp.StadiumName,
+                                    Status: tmp.Status,
+                                    lng: parseFloat(tmp.LngLat.split(',')[0]),
+                                    lat: parseFloat(tmp.LngLat.split(',')[1]),
+                                    Address: tmp.Address,
+                                    ImgUrl: tmp.ImgUrl,
+                                    ImgUrls: tmp.ImgUrls,
+                                    StadiumType: tmp.StadiumType,
+                                    CourtType: tmp.CourtType,
+                                    SportsType: tmp.SportsType,
+                                    StadiumBizType: tmp.StadiumBizType,
+                                    Level: tmp.Level,
+                                    StadiumTel: tmp.StadiumTel,
+                                    ReservationPlatform: tmp.ReservationPlatform,
+                                    CountyName: tmp.CountyName,
+                                    Address: tmp.Address,
+                                    Detail: tmp.Detail,
+                                    FacilityInfos: tmp.FacilityInfos,
+                                    MinPrice: tmp.MinPrice,
+                                    BookableMaxDate: tmp.BookableMaxDate,
+                                    ShowHour: tmp.ShowHour,
+                                    ShowHourDesc: tmp.ShowHourDesc,
+                                    CourtsNum: tmp.CourtsNum,
+                                }
+                            }
+                        }
+                        this.showMap(map);
+                    })
+                    .catch(error => {
+                        console.error('POST请求出错：', error);
+                    });
+            },
+
+            showMap(map) {
+                mapInfo = this.mapInfo;
+                var markerIcon = L.icon({
+                    iconUrl: "icon/marker.png",
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 22],
+                });
+
+                if (mapInfo.mapPois.length > 1) {
+                    map.fitBounds(this.getMapInfoBounds(), {padding: [50, 50]});
+                } else if (mapInfo.mapPois.length == 1) {
+                    map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
                 }
-                return response.json();
-            })
-            .then(data => {
-                // console.log('POST请求成功，返回的数据：', data);
-                var idx = 0
-                console.log(this.mapInfo)
-                for (var i = 0; i < data.data.length; i++) {
-                  tmp = data.data[i]
-                  if (tmp.LngLat == '0,0') {
-                    continue
-                  }
-                  this.mapInfo.mapPois[idx++] = {
-                    poi: {
-                        id: tmp.StadiumId,
-                        title: tmp.StadiumName,
-                        Status: tmp.Status,
-                        lng: parseFloat(tmp.LngLat.split(',')[0]),
-                        lat: parseFloat(tmp.LngLat.split(',')[1]),
-                        Address: tmp.Address,
-                        ImgUrl: tmp.ImgUrl,
-                        ImgUrls: tmp.ImgUrls,
-                        StadiumType: tmp.StadiumType,
-                        CourtType : tmp.CourtType,
-                        SportsType: tmp.SportsType,
-                        StadiumBizType: tmp.StadiumBizType,
-                        Level: tmp.Level,
-                        StadiumTel: tmp.StadiumTel,
-                        ReservationPlatform: tmp.ReservationPlatform,
-                        CountyName : tmp.CountyName,
-                        Address : tmp.Address,
-                        Detail : tmp.Detail,
-                        FacilityInfos : tmp.FacilityInfos,
-                        MinPrice : tmp.MinPrice,
-                        BookableMaxDate : tmp.BookableMaxDate,
-                        ShowHour : tmp.ShowHour,
-                        ShowHourDesc : tmp.ShowHourDesc,
-                        CourtsNum : tmp.CourtsNum,
+
+                markers = this.showAllPoiMarker(map, markerIcon);
+
+                // 展示所有路线
+                this.showAllRoute(map);
+
+                // 展示所有路线
+                this.showAllArea(map);
+
+                var searchControl = new L.Control.Search({
+                    position: 'topright',
+                    layer: markers,
+                    initial: false,
+                    zoom: 14,
+                    marker: false,
+                    moveToLocation: function (latlng, title, map) {
+                        // var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+                        map.setView(latlng, 14);
                     }
-                  }
-                }
-                this.showMap(map);
-            })
-            .catch(error => {
-                console.error('POST请求出错：', error);
-            });
-          },
+                });
+                // https://github.com/stefanocudini/leaflet-search
+                // https://github.com/Leaflet/Leaflet.markercluster
+                searchControl.on('search:locationfound', function (e) {
+                    // markers.zoomToShowLayer(e.layer, function() {
+                    if (e.layer._popup) e.layer.openPopup();
+                    // });
+                });
 
-          showMap(map) {
-            mapInfo = this.mapInfo;
-            var markerIcon = L.icon({
-              iconUrl: "icon/marker.png",
-              iconSize: [24, 24],
-              iconAnchor: [12, 22],
-            });
+                // searchControl.addTo(map);
+                map.addControl(searchControl);
+            },
 
-            if (mapInfo.mapPois.length > 1) {
-              map.fitBounds(this.getMapInfoBounds(), { padding: [50, 50] });
-            } else if (mapInfo.mapPois.length == 1) {
-              map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
-            }
-
-            markers = this.showAllPoiMarker(map, markerIcon);
-
-            // 展示所有路线
-            this.showAllRoute(map);
-
-            // 展示所有路线
-            this.showAllArea(map);
-
-            var searchControl = new L.Control.Search({
-              position: 'topright',
-              layer: markers,
-              initial: false,
-              zoom: 14,
-              marker: false,
-              moveToLocation: function (latlng, title, map) {
-                // var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-                map.setView(latlng, 14);
-              }
-            });
-            // https://github.com/stefanocudini/leaflet-search
-            // https://github.com/Leaflet/Leaflet.markercluster
-            searchControl.on('search:locationfound', function(e) {
-                // markers.zoomToShowLayer(e.layer, function() {
-                  if (e.layer._popup) e.layer.openPopup();
-                // });
-              });
-
-            // searchControl.addTo(map);
-            map.addControl(searchControl);
-          },
-
-          getMapInfoBounds() {
-            mapInfo = this.mapInfo;
-            // 循环 mapInfo mapPois, 获取所有经纬度
-            var bounds = [];
-            // var farawayNames=["","辉华网球俱乐部","上海建桥学院",""];
-            var farawayDistricts=["金山区","奉贤区","松江区","闵行区","青浦区","宝山区","杨浦区","崇明区","嘉定区","浦东新区"];
-            for (var i = 0; i < mapInfo.mapPois.length; i++) {
-              if (mapInfo.mapPois[i].poi.title.indexOf("乐动力·篮网球热力场") != -1 || mapInfo.mapPois[i].poi.CountyName == "" || farawayDistricts.includes(mapInfo.mapPois[i].poi.CountyName)) {
-                continue
-              };
-              bounds.push([mapInfo.mapPois[i].poi.lat, mapInfo.mapPois[i].poi.lng]);
-            }
-
-            for (var i = 0; i < mapInfo.mapRoutes.length; i++) {
-              var route = mapInfo.mapRoutes[i];
-              if (route.paths.length == 0) {
-                continue;
-              }
-              for (var j = 0; j < route.paths.length; j++) {
-                var path = route.paths[j];
-                for (var k = 0; k < path.coordinates.length; k++) {
-                  bounds.push([path.coordinates[k][1], path.coordinates[k][0]]);
-                }
-              }
-            }
-
-            return bounds;
-          },
-
-          showAllPoiMarker(map, markerIcon) {
-            mapInfo = this.mapInfo;
-            var markers = L.layerGroup();
-
-            for (var i = 0; i < mapInfo.mapPois.length; i++) {
-              let poi = mapInfo.mapPois[i].poi;
-              var markerId = poi.id;
-
-              // var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
-              // var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
-
-              tags = [poi.StadiumType]
-              if (poi.StadiumType == '室内和室外') {
-                tags[0] = '室内'
-                tags[1] = '室外'
-              }
-
-              const sportsType = poi.SportsType.split('+')
-              if (sportsType.includes('网球')) {
-                tags.push('网球')
-              }
-              if (sportsType.includes('匹克球')) {
-                tags.push('匹克球')
-              }
-              if (sportsType.includes('板式网球')) {
-                tags.push('板式网球')
-              }
-              if (sportsType.includes('学练馆')) {
-                tags.push('学练馆')
-                tags.push('发球机')
-              }
-              if (sportsType.includes('网球墙')) {
-                tags.push('网球墙')
-              }
-
-              const facilityInfos = poi.FacilityInfos.split(',')
-              if (facilityInfos.includes('空调')) {
-                tags.push('空调')
-              }
-              if (facilityInfos.includes('洗浴')) {
-                tags.push('淋浴')
-              }
-              if (facilityInfos.includes('发球机')) {
-                tags.push('发球机')
-              }
-              if (facilityInfos.includes('多球租赁')) {
-                tags.push('多球租赁')
-              }
-
-              var marker = L.marker([poi.lat, poi.lng], { icon: markerIcon, title: poi.title, tags: tags });
-              if (poi.SportsType == "学练馆") {
-                var markerIcon2 = L.icon({
-                    iconUrl: "icon/tennis-machine.png",
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 22],
-                  });
-                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-              } else {
-                if (poi.Status == 2) {
-                  var markerIcon2 = L.icon({
-                    iconUrl: "icon/marker2.png",
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 22],
-                  });
-                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-                } else if (poi.Level == 1) {
-                  var markerIcon2 = L.icon({
-                    iconUrl: "icon/crown.png",
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 22],
-                  });
-                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-                } else if (poi.Level == 2) {
-                  var markerIcon2 = L.icon({
-                    iconUrl: "icon/diamond.png",
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 22],
-                  });
-                  marker = L.marker([poi.lat, poi.lng], { icon: markerIcon2, title: poi.title, tags: tags });
-                }
-              }
-
-              // 小区的z-index优先级放最低
-              if (poi.StadiumBizType == "小区") {
-                marker.setZIndexOffset(-1000);
-              }
-
-              marker.stadiumId = markerId;
-              marker.BookableMaxDate = poi.BookableMaxDate;
-              marker.ReservationPlatform = poi.ReservationPlatform;
-              marker.poi = poi;
-
-              // 通过vue的模板字符串创建并渲染到#my_popup节点上
-              let vm;
-              marker.on('popupopen', e => {
-                const m = e.popup._source, poi = m.poi;
-
-                // 仅韵动吧上的场馆显示查看可订状态按钮
-                isShowBtn = m.ReservationPlatform.includes("韵动吧");
-
-                var title = '<b>' + poi.title + '</b>';
-                if (poi.Status == 2) {
-                    title += '<p class="post-category post-category-red">' + '已停业' + '</p>';
-                }
-                if (poi.StadiumType != "" || poi.CourtType != "") {
-                    title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p>';
-                }
-                title += '<el-rate class="ml-1" />';
-                title += '<el-image :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
-                if (poi.hasOwnProperty("Address")) {
-                    title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
-                }
-                const ua = navigator.userAgent;
-                if (/iPhone|iPad|iPod|iOS/.test(ua)) {
-                    title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
-                    title += '<a href="iosamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
-                } else if (/Android|android/.test(ua)) {
-                    title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
-                    title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+            getMapInfoBounds() {
+                mapInfo = this.mapInfo;
+                // 循环 mapInfo mapPois, 获取所有经纬度
+                var bounds = [];
+                // var farawayNames=["","辉华网球俱乐部","上海建桥学院",""];
+                var farawayDistricts = ["金山区", "奉贤区", "松江区", "闵行区", "青浦区", "宝山区", "杨浦区", "崇明区", "嘉定区", "浦东新区"];
+                for (var i = 0; i < mapInfo.mapPois.length; i++) {
+                    if (mapInfo.mapPois[i].poi.title.indexOf("乐动力·篮网球热力场") != -1 || mapInfo.mapPois[i].poi.CountyName == "" || farawayDistricts.includes(mapInfo.mapPois[i].poi.CountyName)) {
+                        continue
+                    }
+                    ;
+                    bounds.push([mapInfo.mapPois[i].poi.lat, mapInfo.mapPois[i].poi.lng]);
                 }
 
-                title += '<div style="my-popup">';
-                if (poi.StadiumTel != "") {
-                    title += '<p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + ' '
-                }
-                if (poi.ReservationPlatform != "") {
-                    title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + ' '
-                }
-                if (poi.MinPrice > 0) {
-                    title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
-                }
-                if (poi.BookableMaxDate != "") {
-                    title += '<p class="post-category post-category-red">最远可订日期</p> ' + poi.BookableMaxDate + ' '
-                }
-                if (poi.ShowHourDesc != "") {
-                    title += '<p class="post-category post-category-red">抢场时间描述</p> ' + poi.ShowHourDesc + ' '
-                }
-                title += '</div>';
-                // <p><strong>设施信息：</strong> {{FacilityInfos}}</p>
-                if (poi.Detail != "") {
-                    title += '<div><p class="post-category post-category-green">详情</p>' + poi.Detail
-                    title += '</div>';
+                for (var i = 0; i < mapInfo.mapRoutes.length; i++) {
+                    var route = mapInfo.mapRoutes[i];
+                    if (route.paths.length == 0) {
+                        continue;
+                    }
+                    for (var j = 0; j < route.paths.length; j++) {
+                        var path = route.paths[j];
+                        for (var k = 0; k < path.coordinates.length; k++) {
+                            bounds.push([path.coordinates[k][1], path.coordinates[k][0]]);
+                        }
+                    }
                 }
 
-                title += `
+                return bounds;
+            },
+
+            showAllPoiMarker(map, markerIcon) {
+                mapInfo = this.mapInfo;
+                var markers = L.layerGroup();
+
+                for (var i = 0; i < mapInfo.mapPois.length; i++) {
+                    let poi = mapInfo.mapPois[i].poi;
+                    var markerId = poi.id;
+
+                    // var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
+                    // var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
+
+                    tags = [poi.StadiumType]
+                    if (poi.StadiumType == '室内和室外') {
+                        tags[0] = '室内'
+                        tags[1] = '室外'
+                    }
+
+                    const sportsType = poi.SportsType.split('+')
+                    if (sportsType.includes('网球')) {
+                        tags.push('网球')
+                    }
+                    if (sportsType.includes('匹克球')) {
+                        tags.push('匹克球')
+                    }
+                    if (sportsType.includes('板式网球')) {
+                        tags.push('板式网球')
+                    }
+                    if (sportsType.includes('学练馆')) {
+                        tags.push('学练馆')
+                        tags.push('发球机')
+                    }
+                    if (sportsType.includes('网球墙')) {
+                        tags.push('网球墙')
+                    }
+
+                    const facilityInfos = poi.FacilityInfos.split(',')
+                    if (facilityInfos.includes('空调')) {
+                        tags.push('空调')
+                    }
+                    if (facilityInfos.includes('洗浴')) {
+                        tags.push('淋浴')
+                    }
+                    if (facilityInfos.includes('发球机')) {
+                        tags.push('发球机')
+                    }
+                    if (facilityInfos.includes('多球租赁')) {
+                        tags.push('多球租赁')
+                    }
+
+                    var marker = L.marker([poi.lat, poi.lng], {icon: markerIcon, title: poi.title, tags: tags});
+                    if (poi.SportsType == "学练馆") {
+                        var markerIcon2 = L.icon({
+                            iconUrl: "icon/tennis-machine.png",
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 22],
+                        });
+                        marker = L.marker([poi.lat, poi.lng], {icon: markerIcon2, title: poi.title, tags: tags});
+                    } else {
+                        if (poi.Status == 2) {
+                            var markerIcon2 = L.icon({
+                                iconUrl: "icon/marker2.png",
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 22],
+                            });
+                            marker = L.marker([poi.lat, poi.lng], {icon: markerIcon2, title: poi.title, tags: tags});
+                        } else if (poi.Level == 1) {
+                            var markerIcon2 = L.icon({
+                                iconUrl: "icon/crown.png",
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 22],
+                            });
+                            marker = L.marker([poi.lat, poi.lng], {icon: markerIcon2, title: poi.title, tags: tags});
+                        } else if (poi.Level == 2) {
+                            var markerIcon2 = L.icon({
+                                iconUrl: "icon/diamond.png",
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 22],
+                            });
+                            marker = L.marker([poi.lat, poi.lng], {icon: markerIcon2, title: poi.title, tags: tags});
+                        }
+                    }
+
+                    // 小区的z-index优先级放最低
+                    if (poi.StadiumBizType == "小区") {
+                        marker.setZIndexOffset(-1000);
+                    }
+
+                    marker.stadiumId = markerId;
+                    marker.BookableMaxDate = poi.BookableMaxDate;
+                    marker.ReservationPlatform = poi.ReservationPlatform;
+                    marker.poi = poi;
+
+                    // 通过vue的模板字符串创建并渲染到#my_popup节点上
+                    let vm;
+                    marker.on('popupopen', e => {
+                        const m = e.popup._source, poi = m.poi;
+
+                        // 仅韵动吧上的场馆显示查看可订状态按钮
+                        isShowBtn = m.ReservationPlatform.includes("韵动吧");
+
+                        var title = '<b>' + poi.title + '</b>';
+                        if (poi.Status == 2) {
+                            title += '<p class="post-category post-category-red">' + '已停业' + '</p>';
+                        }
+                        if (poi.StadiumType != "" || poi.CourtType != "") {
+                            title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p>';
+                        }
+                        title += '<el-rate class="ml-1" />';
+                        title += '<el-image :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
+                        if (poi.hasOwnProperty("Address")) {
+                            title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
+                        }
+                        const ua = navigator.userAgent;
+                        if (/iPhone|iPad|iPod|iOS/.test(ua)) {
+                            title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+                            title += '<a href="iosamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+                        } else if (/Android|android/.test(ua)) {
+                            title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+                            title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+                        }
+
+                        title += '<div style="my-popup">';
+                        if (poi.StadiumTel != "") {
+                            title += '<p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + ' '
+                        }
+                        if (poi.ReservationPlatform != "") {
+                            title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + ' '
+                        }
+                        if (poi.MinPrice > 0) {
+                            title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
+                        }
+                        if (poi.BookableMaxDate != "") {
+                            title += '<p class="post-category post-category-red">最远可订日期</p> ' + poi.BookableMaxDate + ' '
+                        }
+                        if (poi.ShowHourDesc != "") {
+                            title += '<p class="post-category post-category-red">抢场时间描述</p> ' + poi.ShowHourDesc + ' '
+                        }
+                        title += '</div>';
+                        // <p><strong>设施信息：</strong> {{FacilityInfos}}</p>
+                        if (poi.Detail != "") {
+                            title += '<div><p class="post-category post-category-green">详情</p>' + poi.Detail
+                            title += '</div>';
+                        }
+
+                        title += `
                   <el-divider v-if="` + isShowBtn + `"/>
                   <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
                   <div style="position: relative;overflow: hidden;">
@@ -593,162 +620,167 @@
                   </div>
                 `;
 
-                const data = {
-                    myUrl: poi.ImgUrl,
-                    myUrlList: [poi.ImgUrl],
-                };
+                        const data = {
+                            myUrl: poi.ImgUrl,
+                            myUrlList: [poi.ImgUrl],
+                        };
 
-                vm = createApp({
-                    template: title,
-                    props: {
-                        myUrl: String,
-                        myUrlList: Array,
-                    },
-                    data() {
-                        return {
-                            dialogVisible: false,
-                            url: "",
-                            urlList: [],
-                        }
-                    },
-                    mounted() {
-                        this.iFrameHeight = 1000;
-                        this.iFrameWidth = 700;
-                    },
-                    setup(props) {
-                        return {
-                            url: props.myUrl,
-                            urlList: props.myUrlList,
-                        }
-                    },
-                    methods: {
-                        change: function () {
-                            this.dialogVisible = true;
-                            // console.log('!!!!!!1',  app._component.data().dialogVisible);
-                            // sharedData.dialogVisible = true;
-                            // console.log('!!!', app);
-                            // console.log('!!!!!!2',  app._component.data().dialogVisible);
-                            // console.log('!!!!!!!',  this.$data.dialogVisible);
-                            // console.log('~~~', sharedData.dialogVisible);
-                            // app.data.dialogVisible = true
-                        }
-                    }
-                }, data)
-                vm.use(ElementPlus).mount('#my_popup_' + m.stadiumId);
-              })
-
-              // 弹窗关闭时，一定需要销毁vue实例！非常重要！
-              marker.on('popupclose', e => {
-                vm.unmount();
-              })
-              
-              marker.bindPopup(title, {offset: [0, -24]});
-              marker.bindTooltip(poi.title, { permanent: true, direction: 'top', offset: [0, -24], className: 'my-marker' })
-                .openTooltip();
-
-              this.markers.push(marker);
-              marker.addTo(map);
-
-              markers.addLayer(marker);
-            }
-
-            return markers
-          },
-
-          // 获取一条路线的 latlngs
-          getRouteLatLngs(route) {
-            var latlngs = [];
-
-            // 循环将 route path 中 的 coordinates 添加到 latlngs 中, coordinates 的格式是 [lng, lat]
-            for (var j = 0; j < route.paths.length; j++) {
-              var path = route.paths[j];
-              for (var k = 0; k < path.coordinates.length; k++) {
-                latlngs.push([path.coordinates[k][1], path.coordinates[k][0]]);
-              }
-            }
-
-            return latlngs;
-          },
-
-          // 显示所有路线
-          showAllRoute(map) {
-            mapInfo = this.mapInfo;
-            for (var i = 0; i < mapInfo.mapRoutes.length; i++) {
-              var route = mapInfo.mapRoutes[i];
-              if (route.paths.length == 0) {
-                continue;
-              }
-              var latlngs = this.getRouteLatLngs(route);
-
-              var polyline = L.polyline(latlngs, { color: route.routeColor || '#964DFF', opacity: 0.8, weight: 6 })
-                .addTo(map);
-
-              // 加上剪头
-              // polyline.setText('        >>        ', { offset: 1, repeat: true, attributes: {fill: 'white', class: 'line-arrow'}});
-              var decorator = L.polylineDecorator(polyline, {
-                patterns: [
-                  {
-                    offset: 25, // 起始偏移
-                    repeat: 50, // 重复间隔
-                    symbol: L.Symbol.arrowHead({
-                      pixelSize: 4,
-                      polygon: false,
-                      pathOptions: { stroke: true, color: '#ffffff', weight: 1 }
+                        vm = createApp({
+                            template: title,
+                            props: {
+                                myUrl: String,
+                                myUrlList: Array,
+                            },
+                            data() {
+                                return {
+                                    dialogVisible: false,
+                                    url: "",
+                                    urlList: [],
+                                }
+                            },
+                            mounted() {
+                                this.iFrameHeight = 1000;
+                                this.iFrameWidth = 700;
+                            },
+                            setup(props) {
+                                return {
+                                    url: props.myUrl,
+                                    urlList: props.myUrlList,
+                                }
+                            },
+                            methods: {
+                                change: function () {
+                                    this.dialogVisible = true;
+                                    // console.log('!!!!!!1',  app._component.data().dialogVisible);
+                                    // sharedData.dialogVisible = true;
+                                    // console.log('!!!', app);
+                                    // console.log('!!!!!!2',  app._component.data().dialogVisible);
+                                    // console.log('!!!!!!!',  this.$data.dialogVisible);
+                                    // console.log('~~~', sharedData.dialogVisible);
+                                    // app.data.dialogVisible = true
+                                }
+                            }
+                        }, data)
+                        vm.use(ElementPlus).mount('#my_popup_' + m.stadiumId);
                     })
-                  }
-                ]
-              }).addTo(map);
+
+                    // 弹窗关闭时，一定需要销毁vue实例！非常重要！
+                    marker.on('popupclose', e => {
+                        vm.unmount();
+                    })
+
+                    marker.bindPopup(title, {offset: [0, -24]});
+                    marker.bindTooltip(poi.title, {
+                        permanent: true,
+                        direction: 'top',
+                        offset: [0, -24],
+                        className: 'my-marker'
+                    })
+                        .openTooltip();
+
+                    this.markers.push(marker);
+                    marker.addTo(map);
+
+                    markers.addLayer(marker);
+                }
+
+                return markers
+            },
+
+            // 获取一条路线的 latlngs
+            getRouteLatLngs(route) {
+                var latlngs = [];
+
+                // 循环将 route path 中 的 coordinates 添加到 latlngs 中, coordinates 的格式是 [lng, lat]
+                for (var j = 0; j < route.paths.length; j++) {
+                    var path = route.paths[j];
+                    for (var k = 0; k < path.coordinates.length; k++) {
+                        latlngs.push([path.coordinates[k][1], path.coordinates[k][0]]);
+                    }
+                }
+
+                return latlngs;
+            },
+
+            // 显示所有路线
+            showAllRoute(map) {
+                mapInfo = this.mapInfo;
+                for (var i = 0; i < mapInfo.mapRoutes.length; i++) {
+                    var route = mapInfo.mapRoutes[i];
+                    if (route.paths.length == 0) {
+                        continue;
+                    }
+                    var latlngs = this.getRouteLatLngs(route);
+
+                    var polyline = L.polyline(latlngs, {color: route.routeColor || '#964DFF', opacity: 0.8, weight: 6})
+                        .addTo(map);
+
+                    // 加上剪头
+                    // polyline.setText('        >>        ', { offset: 1, repeat: true, attributes: {fill: 'white', class: 'line-arrow'}});
+                    var decorator = L.polylineDecorator(polyline, {
+                        patterns: [
+                            {
+                                offset: 25, // 起始偏移
+                                repeat: 50, // 重复间隔
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 4,
+                                    polygon: false,
+                                    pathOptions: {stroke: true, color: '#ffffff', weight: 1}
+                                })
+                            }
+                        ]
+                    }).addTo(map);
+                }
+            },
+
+            // 显示所有区域
+            showAllArea(map) {
+                for (var i = 0; i < mapInfo.mapAreas.length; i++) {
+                    var area = mapInfo.mapAreas[i];
+                    if (area.coordinates.length == 0) {
+                        continue;
+                    }
+                    var latlngs = [];
+                    for (var j = 0; j < area.coordinates.length; j++) {
+                        latlngs.push([area.coordinates[j][1], area.coordinates[j][0]]);
+                    }
+
+                    var polygon = L.polygon(latlngs, {color: area.areaColor || '#964DFF', opacity: 0.8, weight: 2})
+                        .addTo(map);
+
+                    var areaName = area.title || '';
+
+                    // Add area name as a marker at the center of the polygon
+                    var centerLatLng = polygon.getBounds().getCenter();
+
+                    console.log(centerLatLng);
+
+                    var textLabel = L.divIcon({
+                        className: 'text-label',
+                        html: '<div>' + areaName + '</div>',
+                        iconSize: [100, 40],
+                        iconAnchor: [50, 20]
+                    });
+
+                    L.marker(centerLatLng, {icon: textLabel}).addTo(map);
+                }
+            },
+
+            getQueryParams() {
+                let params = {};
+                let queryString = window.location.search.substring(1);
+                let queries = queryString.split("&");
+                for (let i = 0; i < queries.length; i++) {
+                    let pair = queries[i].split("=");
+                    params[pair[0]] = decodeURIComponent(pair[1]);
+                }
+                return params;
             }
-          },
-
-          // 显示所有区域
-          showAllArea(map) {
-            for (var i = 0; i < mapInfo.mapAreas.length; i++) {
-              var area = mapInfo.mapAreas[i];
-              if (area.coordinates.length == 0) {
-                continue;
-              }
-              var latlngs = [];
-              for (var j = 0; j < area.coordinates.length; j++) {
-                latlngs.push([area.coordinates[j][1], area.coordinates[j][0]]);
-              }
-
-              var polygon = L.polygon(latlngs, { color: area.areaColor || '#964DFF', opacity: 0.8, weight: 2 })
-                .addTo(map);
-
-              var areaName = area.title || '';
-
-              // Add area name as a marker at the center of the polygon
-              var centerLatLng = polygon.getBounds().getCenter();
-
-              console.log(centerLatLng);
-
-              var textLabel = L.divIcon({
-                className: 'text-label',
-                html: '<div>' + areaName + '</div>',
-                iconSize: [100, 40],
-                iconAnchor: [50, 20]
-              });
-
-              L.marker(centerLatLng, { icon: textLabel }).addTo(map);
-            }
-          },
-
-          getQueryParams() {
-            let params = {};
-            let queryString = window.location.search.substring(1);
-            let queries = queryString.split("&");
-            for (let i = 0; i < queries.length; i++) {
-                let pair = queries[i].split("=");
-                params[pair[0]] = decodeURIComponent(pair[1]);
-            }
-            return params;
-          }
         }
     });
     app.use(ElementPlus);
     app.mount('#app')
-  </script>
+</script>
 
 </body>
 
