@@ -621,6 +621,9 @@
                         title += `
                           <el-divider v-if="` + isShowBtn + `"/>
                           <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
+                          <el-button type="primary" size="small" @click="jumpToYdb" v-if="` + isShowBtn + `">
+                            <a href="https://wxaurl.cn/hTEDKSSRuCv" target="_blank" style="color:#fff; text-decoration: none">打开韵动吧</a>
+                          </el-button>
                           <div style="position: relative;overflow: hidden;">
                             <el-dialog
                               v-model="dialogVisible"
