@@ -377,7 +377,6 @@
                                     StadiumTel: tmp.StadiumTel,
                                     ReservationPlatform: tmp.ReservationPlatform,
                                     CountyName: tmp.CountyName,
-                                    Address: tmp.Address,
                                     Detail: tmp.Detail,
                                     FacilityInfos: tmp.FacilityInfos,
                                     MinPrice: tmp.MinPrice,
@@ -580,7 +579,7 @@
                         // title += '<el-rate class="ml-1" />';
                         title += '<el-image v-if="url != \'\'" :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
                         if (poi.hasOwnProperty("Address")) {
-                            title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
+                            title += '<div><el-text class="mx-1" type="primary">' + poi.CountyName + '</el-text>' + ' ' + poi.Address + '</div>';
                         }
                         const ua = navigator.userAgent;
                         if (/iPhone|iPad|iPod|iOS/.test(ua)) {
@@ -591,12 +590,17 @@
                             title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
                         }
 
-                        title += '<div style="my-popup">';
+                        title += '<div>';
                         if (poi.StadiumTel != "") {
                             title += '<p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + ' '
                         }
                         if (poi.ReservationPlatform != "") {
-                            title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + ' '
+                            title += '<p class="post-category post-category-red">预订平台</p> ';
+                            let vals = poi.ReservationPlatform.split(",");
+                            for (let i = 0; i < vals.length; i++) {
+                                title += ('<el-tag size="small">' + vals[i] + '</el-tag>');
+                            }
+                            title += ' ';
                         }
                         if (poi.MinPrice > 0) {
                             title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
