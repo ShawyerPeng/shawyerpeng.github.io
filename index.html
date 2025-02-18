@@ -570,7 +570,7 @@
                         if (poi.StadiumType != "" || poi.CourtType != "") {
                             title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p>';
                         }
-                        title += '<el-rate class="ml-1" />';
+                        // title += '<el-rate class="ml-1" />';
                         title += '<el-image :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
                         if (poi.hasOwnProperty("Address")) {
                             title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
@@ -608,17 +608,17 @@
                         }
 
                         title += `
-                  <el-divider v-if="` + isShowBtn + `"/>
-                  <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
-                  <div style="position: relative;overflow: hidden;">
-                    <el-dialog
-                      v-model="dialogVisible"
-                      fullscreen
-                      width="30%">
-                      <iframe src="./reservation.html?stadium_id=` + m.stadiumId + "&max_date=" + m.BookableMaxDate + `" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
-                    </el-dialog>
-                  </div>
-                `;
+                          <el-divider v-if="` + isShowBtn + `"/>
+                          <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
+                          <div style="position: relative;overflow: hidden;">
+                            <el-dialog
+                              v-model="dialogVisible"
+                              fullscreen
+                              width="30%">
+                              <iframe src="./reservation.html?stadium_id=` + m.stadiumId + "&max_date=" + m.BookableMaxDate + `" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
+                            </el-dialog>
+                          </div>
+                        `;
 
                         const data = {
                             myUrl: poi.ImgUrl,
@@ -669,7 +669,8 @@
                         vm.unmount();
                     })
 
-                    marker.bindPopup(title, {offset: [0, -24]});
+                    rootTitle = '<div id="my_popup_' + markerId + '"></div>'
+                    marker.bindPopup(rootTitle, {offset: [0, -24]});
                     marker.bindTooltip(poi.title, {
                         permanent: true,
                         direction: 'top',
