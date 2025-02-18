@@ -335,6 +335,7 @@
                         lat: parseFloat(tmp.LngLat.split(',')[1]),
                         Address: tmp.Address,
                         ImgUrl: tmp.ImgUrl,
+                        ImgUrls: tmp.ImgUrls,
                         StadiumType: tmp.StadiumType,
                         CourtType : tmp.CourtType,
                         SportsType: tmp.SportsType,
@@ -440,52 +441,11 @@
             var markers = L.layerGroup();
 
             for (var i = 0; i < mapInfo.mapPois.length; i++) {
-              var poi = mapInfo.mapPois[i].poi;
+              let poi = mapInfo.mapPois[i].poi;
               var markerId = poi.id;
 
               // var img = item.personImage ? item.personImage.replace("http:", "https:") + '?width=80px' : 'nouser.jpg';
               // var title = '<div> <p style="font-weight:bold;width:300px;">' + poi.title + ''
-              var title = '<div style="width:300px" height:800px> <b>' + poi.title + '</b>'
-              if (poi.Status == 2) {
-                title += '<p class="post-category post-category-red">' + '已歇业' + '</p>';
-              }
-              if (poi.StadiumType != "" || poi.CourtType != "") {
-                title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p></div>';
-              }
-              title += '<img src="' + poi.ImgUrl + '"' + ' style="max-width:300px" />';
-              if (poi.hasOwnProperty("Address")) {
-                title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
-              }
-              const ua = navigator.userAgent;
-              if (/iPhone|iPad|iPod|iOS/.test(ua)) {
-                title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
-                title += '<a href="iosamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
-              } else if (/Android|android/.test(ua)) {
-                title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
-                title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
-              }
-              if (poi.StadiumTel != "") {
-                title += '<div style="my-popup"><p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + '  '
-              }
-              if (poi.ReservationPlatform != "") {
-                title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + '  '
-              }
-              if (poi.MinPrice > 0) {
-                title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + '  '
-              }
-              if (poi.BookableMaxDate != "") {
-                title += '<p class="post-category post-category-red">最远可订日期</p> ' + poi.BookableMaxDate + ' '
-              }
-              if (poi.ShowHourDesc != "") {
-                title += '<p class="post-category post-category-red">抢场时间描述</p> ' + poi.ShowHourDesc
-              }
-              title += '</div>'
-              // <p><strong>设施信息：</strong> {{FacilityInfos}}</p>
-              if (poi.Detail != "") {
-                title += '<div><p class="post-category post-category-green">详情</p>' + poi.Detail
-              }
-              title += '<div id="my_popup_' + markerId + '"></div>'
-              title += '</div>'
 
               tags = [poi.StadiumType]
               if (poi.StadiumType == '室内和室外') {
@@ -566,50 +526,114 @@
               marker.stadiumId = markerId;
               marker.BookableMaxDate = poi.BookableMaxDate;
               marker.ReservationPlatform = poi.ReservationPlatform;
+              marker.poi = poi;
 
               // 通过vue的模板字符串创建并渲染到#my_popup节点上
               let vm;
               marker.on('popupopen', e => {
-                const m = e.popup._source;
+                const m = e.popup._source, poi = m.poi;
 
                 // 仅韵动吧上的场馆显示查看可订状态按钮
                 isShowBtn = m.ReservationPlatform.includes("韵动吧");
 
+                var title = '<b>' + poi.title + '</b>';
+                if (poi.Status == 2) {
+                    title += '<p class="post-category post-category-red">' + '已停业' + '</p>';
+                }
+                if (poi.StadiumType != "" || poi.CourtType != "") {
+                    title += '  <p class="post-category post-category-blue">' + poi.StadiumType + ' ' + poi.CourtType + ' ' + (poi.CourtsNum != '0' ? poi.CourtsNum + '片' : "") + '</p>';
+                }
+                title += '<el-rate class="ml-1" />';
+                title += '<el-image :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
+                if (poi.hasOwnProperty("Address")) {
+                    title += '<div style="">[' + poi.CountyName + '] ' + poi.Address + '</div>';
+                }
+                const ua = navigator.userAgent;
+                if (/iPhone|iPad|iPod|iOS/.test(ua)) {
+                    title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+                    title += '<a href="iosamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+                } else if (/Android|android/.test(ua)) {
+                    title += '<div><a href="baidumap://map/marker?location=' + poi.lat + ',' + poi.lng + '&title=' + poi.title + '&content=' + poi.CountyName + poi.Address + '&coord_type=gcj02' + '" target="_blank">跳转百度地图</a> ';
+                    title += '<a href="androidamap://viewMap?sourceApplication=大野後生仔&poiname=' + poi.title + '&lat=' + poi.lat + '&lon=' + poi.lng + '&dev=0' + '" target="_blank">跳转高德地图</a></div>';
+                }
+
+                title += '<div style="my-popup">';
+                if (poi.StadiumTel != "") {
+                    title += '<p class="post-category post-category-red">联系电话</p> ' + poi.StadiumTel + ' '
+                }
+                if (poi.ReservationPlatform != "") {
+                    title += '<p class="post-category post-category-red">预订平台</p> ' + poi.ReservationPlatform + ' '
+                }
+                if (poi.MinPrice > 0) {
+                    title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
+                }
+                if (poi.BookableMaxDate != "") {
+                    title += '<p class="post-category post-category-red">最远可订日期</p> ' + poi.BookableMaxDate + ' '
+                }
+                if (poi.ShowHourDesc != "") {
+                    title += '<p class="post-category post-category-red">抢场时间描述</p> ' + poi.ShowHourDesc + ' '
+                }
+                title += '</div>';
+                // <p><strong>设施信息：</strong> {{FacilityInfos}}</p>
+                if (poi.Detail != "") {
+                    title += '<div><p class="post-category post-category-green">详情</p>' + poi.Detail
+                    title += '</div>';
+                }
+
+                title += `
+                  <el-divider v-if="` + isShowBtn + `"/>
+                  <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
+                  <div style="position: relative;overflow: hidden;">
+                    <el-dialog
+                      v-model="dialogVisible"
+                      fullscreen
+                      width="30%">
+                      <iframe src="./reservation.html?stadium_id=` + m.stadiumId + "&max_date=" + m.BookableMaxDate + `" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
+                    </el-dialog>
+                  </div>
+                `;
+
+                const data = {
+                    myUrl: poi.ImgUrl,
+                    myUrlList: [poi.ImgUrl],
+                };
+
                 vm = createApp({
-                  template: `
-                    <el-divider v-if="` + isShowBtn + `"/>
-                    <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
-                    <div style="position: relative;overflow: hidden;">
-                      <el-dialog
-                        v-model="dialogVisible"
-                        fullscreen
-                        width="30%">
-                        <iframe src="./reservation.html?stadium_id=` + m.stadiumId + "&max_date=" + m.BookableMaxDate + `" name="iframepage" :height="iFrameHeight" :width="iFrameWidth" style="transform:scale(0.5);transform-origin:0 0;display:block;border:0px"></iframe>
-                      </el-dialog>
-                    </div>
-                  `,
-                  data() {
-                    return {
-                      dialogVisible: false,
+                    template: title,
+                    props: {
+                        myUrl: String,
+                        myUrlList: Array,
+                    },
+                    data() {
+                        return {
+                            dialogVisible: false,
+                            url: "",
+                            urlList: [],
+                        }
+                    },
+                    mounted() {
+                        this.iFrameHeight = 1000;
+                        this.iFrameWidth = 700;
+                    },
+                    setup(props) {
+                        return {
+                            url: props.myUrl,
+                            urlList: props.myUrlList,
+                        }
+                    },
+                    methods: {
+                        change: function () {
+                            this.dialogVisible = true;
+                            // console.log('!!!!!!1',  app._component.data().dialogVisible);
+                            // sharedData.dialogVisible = true;
+                            // console.log('!!!', app);
+                            // console.log('!!!!!!2',  app._component.data().dialogVisible);
+                            // console.log('!!!!!!!',  this.$data.dialogVisible);
+                            // console.log('~~~', sharedData.dialogVisible);
+                            // app.data.dialogVisible = true
+                        }
                     }
-                  },
-                  mounted() {
-                    this.iFrameHeight = 1000;
-                    this.iFrameWidth =  700;
-                  },
-                  methods: {
-                    change: function() {
-                      this.dialogVisible = true;
-                      // console.log('!!!!!!1',  app._component.data().dialogVisible);
-                      // sharedData.dialogVisible = true;
-                      // console.log('!!!', app);
-                      // console.log('!!!!!!2',  app._component.data().dialogVisible);
-                      // console.log('!!!!!!!',  this.$data.dialogVisible);
-                      // console.log('~~~', sharedData.dialogVisible);
-                      // app.data.dialogVisible = true
-                    }
-                  }
-                })
+                }, data)
                 vm.use(ElementPlus).mount('#my_popup_' + m.stadiumId);
               })
 
@@ -617,38 +641,6 @@
               marker.on('popupclose', e => {
                 vm.unmount();
               })
-
-              // const MyVueElement = defineCustomElement({
-              //   props: {
-
-              //   },
-              //   emits: {},
-              //   template: `
-              //     
-              //     `,
-              //   styles: [
-              //     `.test { color: red; }`,
-              //   ],
-              // });
-              // if(!customElements.get('my-vue-element'))
-              //   customElements.define('my-vue-element', MyVueElement)
-
-              // marker.bindPopup(title + `<my-vue-element></my-vue-element>`)
-              // const { createApp } = Vue;
-              // createApp({
-              //   data() {
-              //     return {
-              //       message: "Hello Vue!",
-              //     };
-              //   },
-              // }).mount("#app");
-              // let popup = new Vue({
-              //   template:
-              //     title + '<button type="text" @click="dialogVisible = true">查看</button>',
-              //   data: {
-              //     a
-              //   }
-              // }).$mount().$el;
               
               marker.bindPopup(title, {offset: [0, -24]});
               marker.bindTooltip(poi.title, { permanent: true, direction: 'top', offset: [0, -24], className: 'my-marker' })
