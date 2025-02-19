@@ -158,44 +158,45 @@
 
 <body>
 <div id="app" class="container">
-    <!-- <div id="sidebar" class="sidebar collapsed"> -->
-    <!-- Nav tabs -->
-    <!-- <div class="sidebar-tabs">
-        <ul role="tablist">
-            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-            <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-            <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-            <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
-        </ul>
+    <el-container v-loading.fullscreen.lock="loading" :element-loading-text="loadingContent"></el-container>
+        <!-- <div id="sidebar" class="sidebar collapsed"> -->
+        <!-- Nav tabs -->
+        <!-- <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
+            </ul>
 
-        <ul role="tablist">
-            <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-        </ul>
-    </div> -->
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div> -->
 
-    <!-- Tab panes -->
-    <!-- <div class="sidebar-content">
-        <div class="sidebar-pane" id="home">
-          <h1 class="sidebar-header">
-              sidebar-v2
-              <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-          </h1>
-          <iframe src="./a.html" overflow:auto></iframe>
+        <!-- Tab panes -->
+        <!-- <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+              <h1 class="sidebar-header">
+                  sidebar-v2
+                  <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+              </h1>
+              <iframe src="./a.html" overflow:auto></iframe>
 
-          <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-        </div>
+              <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
 
-        <div class="sidebar-pane" id="profile">
-          <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-        </div>
+            <div class="sidebar-pane" id="profile">
+              <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
 
-        <div class="sidebar-pane" id="settings">
-          <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-        </div>
-    </div> -->
-    <!-- </div> -->
+            <div class="sidebar-pane" id="settings">
+              <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div> -->
+        <!-- </div> -->
 
-    <div id="map" class="sidebar-map"></div>
+        <div id="map" class="sidebar-map"></div>
 </div>
 
 <script>
@@ -233,6 +234,7 @@
                 buttonText: 'Zoom In', // skal bruge ellers skifter den ikke navn
                 animalFilter: '',
                 loading: true,
+                loadingContent: "地图加载中，请稍后",
                 image: null
             };
         },
@@ -343,55 +345,54 @@
                         'Origin': 'github.com',
                     },
                     body: JSON.stringify(postData)  // 将JavaScript对象转换为JSON字符串发送
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('网络请求失败，状态码：' + response.status);
+                }).then(response => {
+                    if (!response.ok) {
+                        this.loading = false;
+                        throw new Error('网络请求失败，状态码：' + response.status);
+                    }
+                    return response.json();
+                }).then(data => {
+                    // console.log('POST请求成功，返回的数据：', data);
+                    var idx = 0
+                    for (var i = 0; i < data.data.length; i++) {
+                        tmp = data.data[i]
+                        if (tmp.LngLat == '0,0') {
+                            continue
                         }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // console.log('POST请求成功，返回的数据：', data);
-                        var idx = 0
-                        console.log(this.mapInfo)
-                        for (var i = 0; i < data.data.length; i++) {
-                            tmp = data.data[i]
-                            if (tmp.LngLat == '0,0') {
-                                continue
-                            }
-                            this.mapInfo.mapPois[idx++] = {
-                                poi: {
-                                    id: tmp.StadiumId,
-                                    title: tmp.StadiumName,
-                                    Status: tmp.Status,
-                                    lng: parseFloat(tmp.LngLat.split(',')[0]),
-                                    lat: parseFloat(tmp.LngLat.split(',')[1]),
-                                    Address: tmp.Address,
-                                    ImgUrl: tmp.ImgUrl,
-                                    ImgUrls: tmp.ImgUrls,
-                                    StadiumType: tmp.StadiumType,
-                                    CourtType: tmp.CourtType,
-                                    SportsType: tmp.SportsType,
-                                    StadiumBizType: tmp.StadiumBizType,
-                                    Level: tmp.Level,
-                                    StadiumTel: tmp.StadiumTel,
-                                    ReservationPlatform: tmp.ReservationPlatform,
-                                    CountyName: tmp.CountyName,
-                                    Detail: tmp.Detail,
-                                    FacilityInfos: tmp.FacilityInfos,
-                                    MinPrice: tmp.MinPrice,
-                                    BookableMaxDate: tmp.BookableMaxDate,
-                                    ShowHour: tmp.ShowHour,
-                                    ShowHourDesc: tmp.ShowHourDesc,
-                                    CourtsNum: tmp.CourtsNum,
-                                }
+                        this.mapInfo.mapPois[idx++] = {
+                            poi: {
+                                id: tmp.StadiumId,
+                                title: tmp.StadiumName,
+                                Status: tmp.Status,
+                                lng: parseFloat(tmp.LngLat.split(',')[0]),
+                                lat: parseFloat(tmp.LngLat.split(',')[1]),
+                                Address: tmp.Address,
+                                ImgUrl: tmp.ImgUrl,
+                                ImgUrls: tmp.ImgUrls,
+                                StadiumType: tmp.StadiumType,
+                                CourtType: tmp.CourtType,
+                                SportsType: tmp.SportsType,
+                                StadiumBizType: tmp.StadiumBizType,
+                                Level: tmp.Level,
+                                StadiumTel: tmp.StadiumTel,
+                                ReservationPlatform: tmp.ReservationPlatform,
+                                CountyName: tmp.CountyName,
+                                Detail: tmp.Detail,
+                                FacilityInfos: tmp.FacilityInfos,
+                                MinPrice: tmp.MinPrice,
+                                BookableMaxDate: tmp.BookableMaxDate,
+                                ShowHour: tmp.ShowHour,
+                                ShowHourDesc: tmp.ShowHourDesc,
+                                CourtsNum: tmp.CourtsNum,
                             }
                         }
-                        this.showMap(map);
-                    })
-                    .catch(error => {
-                        console.error('POST请求出错：', error);
-                    });
+                    }
+                    this.showMap(map);
+                    this.loading = false;
+                }).catch(error => {
+                    console.error('POST请求出错：', error);
+                    this.loading = false;
+                });
             },
 
             showMap(map) {
