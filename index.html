@@ -607,7 +607,7 @@
                             title += '<p class="post-category post-category-red">最低价格</p> ' + poi.MinPrice + '元' + ' '
                         }
                         if (poi.BookableMaxDate != "") {
-                            title += '<p class="post-category post-category-red">最远可订</p> ' + poi.BookableMaxDate + ' '
+                            title += '<p class="post-category post-category-red">最远可订</p> ' + poi.BookableMaxDate + '(' + this.getDayOfWeek(poi.BookableMaxDate) + ')' + ' '
                         }
                         if (poi.ShowHourDesc != "") {
                             title += '<p class="post-category post-category-red">抢场时间</p> ' + poi.ShowHourDesc + ' '
@@ -791,6 +791,43 @@
                     params[pair[0]] = decodeURIComponent(pair[1]);
                 }
                 return params;
+            },
+
+            getDayOfWeek(dateStr) {
+                // 将日期字符串转换为Date对象
+                let inputDate = new Date(dateStr);
+                // 获取输入日期的时间戳
+                let inputTime = inputDate.getTime();
+                // 获取当前日期
+                let currentDate = new Date();
+                // 获取当前日期的时间戳
+                let currentTime = currentDate.getTime();
+                // 一天的毫秒数
+                let oneDayTime = 24 * 60 * 60 * 1000;
+                // 一周的毫秒数
+                let oneWeekTime = 7 * oneDayTime;
+
+                // 计算输入日期与当前日期的时间差（以天为单位）
+                let diffDays = Math.floor((inputTime - currentTime) / oneDayTime);
+                // 计算输入日期与当前日期的周数差
+                let diffWeeks = Math.floor(diffDays / 7);
+
+                // 获取输入日期是星期几，0代表周日
+                let dayOfWeek = inputDate.getDay();
+                // 定义表示星期的数组
+                let daysOfWeek = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+                // 根据周数差返回相应的信息
+                if (diffWeeks === 0) {
+                    return `本${daysOfWeek[dayOfWeek]}`;
+                } else if (diffWeeks === 1) {
+                    return `下${daysOfWeek[dayOfWeek]}`;
+                } else if (diffWeeks === 2) {
+                    return `下下${daysOfWeek[dayOfWeek]}`;
+                } else {
+                    return `${daysOfWeek[dayOfWeek]}`;
+                }
+
             }
         }
     });
