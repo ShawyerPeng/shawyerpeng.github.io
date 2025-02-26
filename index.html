@@ -570,7 +570,12 @@
                         // 仅韵动吧上的场馆显示查看可订状态按钮
                         isShowBtn = m.ReservationPlatform.includes("韵动吧");
 
-                        var title = '<b>' + poi.title + '</b>';
+                        var title = '<b id="title">' + poi.title + '</b>';
+                        title += `
+                        <el-button text size="small" style="padding: 0px 2px;" @click="copy">
+                            <img src="assets/copy.svg" width="10" height="10" alt="Copy!">
+                        </el-button>
+                        `
                         if (poi.Status == 2) {
                             title += '<p class="post-category post-category-red">' + '已停业' + '</p>';
                         }
@@ -673,6 +678,10 @@
                                     // console.log('!!!!!!!',  this.$data.dialogVisible);
                                     // console.log('~~~', sharedData.dialogVisible);
                                     // app.data.dialogVisible = true
+                                },
+                                copy: function () {
+                                    const copyText = document.querySelector('#title');
+                                    navigator.clipboard.writeText(copyText.textContent);
                                 }
                             }
                         }, data)
