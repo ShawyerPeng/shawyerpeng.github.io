@@ -153,6 +153,12 @@
             /* background: 0 0; */
             /* border-top: 1px dashed #e8eaec; */
         }
+
+        /* 加载前 */
+        .el-image__placeholder {
+            background: url('assets/loading.gif') no-repeat 50% 50% !important;
+            background-size: 50% !important;
+        }
     </style>
 </head>
 
@@ -586,7 +592,13 @@
                             title += '  <p class="post-category post-category-blue">' + poi.SportsType + '</p>';
                         }
                         // title += '<el-rate class="ml-1" />';
-                        title += '<el-image v-if="url != \'\'" :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px" />';
+                        title += '<el-image v-if="url != \'\'" :src="url" :preview-src-list="urlList" :initial-index="0" :preview-teleported=true :show-progress=true style="max-width:300px; display:flex; justify-content:center; align-items:center" >';
+                        title += `
+                        <template #placeholder>
+                            <img src="assets/loading.gif" style="width: auto; height: 40px; border:none;"><br>
+                        </template>
+                        `
+                        title += '</el-image>'
                         if (poi.hasOwnProperty("Address")) {
                             title += '<div><el-text class="mx-1" type="primary">' + poi.CountyName + '</el-text>' + ' ' + poi.Address + '</div>';
                         }
