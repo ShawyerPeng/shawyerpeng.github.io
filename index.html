@@ -285,29 +285,37 @@
             // 过滤器
             var tennisFilterButton1 = L.control.tagFilterButton({
                 data: ['室内', '室外', '半室内'],
-                // icon: '<i class="fa-solid fa-filter"></i>',
-                icon: '<i class="fa-solid fa-warehouse"></i>',
-                // icon: '<img src="filter3.png">',
+                // icon: '<i class="fa-solid fa-warehouse"></i>',
+                icon: '<img src="arena.png">',
                 clearText: "重置",
                 filterOnEveryClick: true
             }).addTo(map);
 
+            var tennisFilterButton3 = L.control.tagFilterButton({
+                data: ['硬地', '红土', '草地', '人造草地'],
+                icon: '<img src="grass-court.png">',
+                clearText: "重置",
+                filterOnEveryClick: true,
+            }).addTo(map);
+
             var tennisFilterButton2 = L.control.tagFilterButton({
                 data: ['网球', '匹克球', '板式网球', '学练馆', '网球墙'],
-                icon: '<i class="fa-solid fa-table-tennis-paddle-ball"></i>',
+                // icon: '<i class="fa-solid fa-table-tennis-paddle-ball"></i>',
+                icon: '<img src="pickleball.png">',
                 clearText: "重置",
                 filterOnEveryClick: true,
             }).addTo(map);
 
             var facilityFilterButton = L.control.tagFilterButton({
                 data: ['空调', '淋浴', '发球机', '多球租赁'],
-                // icon: '<i class="fa-solid fa-screwdriver-wrench"></i>',
-                icon: '<i class="fa-solid fa-person-booth"></i>',
+                // icon: '<i class="fa-solid fa-person-booth"></i>',
+                icon: '<img src="shower.png">',
                 clearText: "重置",
                 filterOnEveryClick: true,
             }).addTo(map);
 
             tennisFilterButton1.addToReleated(tennisFilterButton2);
+            tennisFilterButton1.addToReleated(tennisFilterButton3);
             tennisFilterButton1.addToReleated(facilityFilterButton);
 
             // 定位插件
@@ -529,6 +537,8 @@
                         tags[0] = '室内'
                         tags[1] = '室外'
                     }
+
+                    tags.push(poi.CourtType)
 
                     const sportsType = poi.SportsType.split('+')
                     if (sportsType.includes('网球')) {
