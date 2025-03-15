@@ -35,6 +35,7 @@
             charset="utf-8"></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
     <script src="https://unpkg.com/element-plus"></script>
+    <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
 
 
     <script>
@@ -165,50 +166,16 @@
 <body>
 <div id="app" class="container">
     <el-container v-loading.fullscreen.lock="loading" :element-loading-text="loadingContent"></el-container>
-        <!-- <div id="sidebar" class="sidebar collapsed"> -->
-        <!-- Nav tabs -->
-        <!-- <div class="sidebar-tabs">
-            <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-                <li><a href="https://github.com/Turbo87/sidebar-v2" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
-            </ul>
 
-            <ul role="tablist">
-                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-            </ul>
-        </div> -->
-
-        <!-- Tab panes -->
-        <!-- <div class="sidebar-content">
-            <div class="sidebar-pane" id="home">
-              <h1 class="sidebar-header">
-                  sidebar-v2
-                  <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-              </h1>
-              <iframe src="./a.html" overflow:auto></iframe>
-
-              <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>
-
-            <div class="sidebar-pane" id="profile">
-              <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            </div>
-
-            <div class="sidebar-pane" id="settings">
-              <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            </div>
-        </div> -->
-        <!-- </div> -->
-
-        <div id="map" class="sidebar-map"></div>
+    <div id="map" class="sidebar-map"></div>
 </div>
 
 <script>
     const {createApp, ref, defineCustomElement} = Vue
 
     const sharedData = {dialogVisible: false}
+
+    const emitter = window.mitt()
 
     app = createApp({
         data() {
@@ -241,7 +208,10 @@
                 animalFilter: '',
                 loading: true,
                 loadingContent: "地图加载中，请稍后",
-                image: null
+                image: null,
+                showCommentModal: false,
+                commentAuthor: '',
+                commentText: ''
             };
         },
         mounted() {
@@ -342,6 +312,8 @@
 
             // 获取地图数据
             this.fetchPois(map)
+
+            emitter.on('openCommentModal', this.addComment); // 监听事件
         },
         methods: {
             fetchPois(map, markerIcon) {
@@ -732,18 +704,14 @@
                             methods: {
                                 change: function () {
                                     this.dialogVisible = true;
-                                    // console.log('!!!!!!1',  app._component.data().dialogVisible);
-                                    // sharedData.dialogVisible = true;
-                                    // console.log('!!!', app);
-                                    // console.log('!!!!!!2',  app._component.data().dialogVisible);
-                                    // console.log('!!!!!!!',  this.$data.dialogVisible);
-                                    // console.log('~~~', sharedData.dialogVisible);
-                                    // app.data.dialogVisible = true
                                 },
                                 copy: function () {
                                     const copyText = document.querySelector('#title');
                                     navigator.clipboard.writeText(copyText.textContent);
-                                }
+                                },
+                                addComment() {
+                                    emitter.emit('openCommentModal', {res:"我是儿子的消息"}); // 触发事件总线事件
+                                },
                             }
                         }, data)
                         vm.use(ElementPlus).mount('#my_popup_' + m.stadiumId);
@@ -898,6 +866,19 @@
                     return `${daysOfWeek[dayOfWeek]}`;
                 }
 
+            },
+            addComment(data) {
+                this.showCommentModal = true; // 显示评论模态框
+                console.log('Received data from child:', data.res); // 打印数据
+            },
+            closeCommentModal() {
+                this.showCommentModal = false; // 关闭评论模态框
+            },
+            submitComment() {
+                alert(`评论提交成功:\n姓名: ${this.commentAuthor}\n内容: ${this.commentText}`);
+                this.closeCommentModal(); // 关闭模态框
+                this.commentAuthor = ''; // 清空输入
+                this.commentText = ''; // 清空输入
             }
         }
     });
