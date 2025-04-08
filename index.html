@@ -178,6 +178,44 @@
 
     const emitter = window.mitt()
 
+    const reserveUrlMap = new Map();
+    reserveUrlMap.set("韵动吧", "https://wxaurl.cn/hTEDKSSRuCv");
+    reserveUrlMap.set("久事体育", "https://wxaurl.cn/dOfuzHF1HLu");
+    reserveUrlMap.set("上海市体育场馆设施管理中心", "https://wxaurl.cn/BoimWOnwCMv");
+    reserveUrlMap.set("健身地图", "https://wxaurl.cn/vsRlh4YeATp");
+    reserveUrlMap.set("趣运动", "https://wxaurl.cn/rOq8uf7RTKo");
+    reserveUrlMap.set("我要运动", "https://wxaurl.cn/KdSVnShwvun");
+    reserveUrlMap.set("静安体育综合服务平台", "https://wxaurl.cn/l0VqsjuUFGp");
+    reserveUrlMap.set("乐动力体育中心", "https://wxaurl.cn/U8TSfTkhaip");
+    reserveUrlMap.set("九回共享", "https://wxaurl.cn/e5qCYXA9WOe");
+    reserveUrlMap.set("勾勾运动", "https://wxaurl.cn/J204ILVGeWu");
+    reserveUrlMap.set("DONGDONG", "https://wxaurl.cn/CKNX2vhbwAv");
+    reserveUrlMap.set("泉衍体育", "https://wxaurl.cn/yqCrxx624Sv");
+    reserveUrlMap.set("至臻网球", "https://wxaurl.cn/9UpiHeEIz5o");
+    reserveUrlMap.set("满贯体育", "");
+    reserveUrlMap.set("核新力网球运动中心", "https://wxaurl.cn/fkNc0Z9UoWc");
+    reserveUrlMap.set("节奏网球俱乐部", "https://wxaurl.cn/UN1hzD1rbkc");
+    reserveUrlMap.set("洛克公园小程序", "https://wxaurl.cn/VidXHdvkAEu");
+    reserveUrlMap.set("体而加体育", "https://wxaurl.cn/zXDnafFnkUi");
+    reserveUrlMap.set("巷澜体育智慧场所", "https://wxaurl.cn/3YaAMrGfCSp");
+    reserveUrlMap.set("华东师范大学体育场馆管理系统", "");
+    reserveUrlMap.set("源深体育", "");
+    reserveUrlMap.set("绮梦网球", "https://wxaurl.cn/bqqKw4ZOECg");
+    reserveUrlMap.set("Master123场馆预定", "https://wxaurl.cn/nCG9ZWOKAfm");
+    reserveUrlMap.set("至诚网球", "https://wxaurl.cn/ofJ8XgQ2fvb");
+    reserveUrlMap.set("瑛赛网球", "https://wxaurl.cn/Tx3QdfpiQYi");
+    reserveUrlMap.set("运动码", "https://ur.alipay.com/_4oCOk3ljXQcF9tiVpAYaoO");
+    reserveUrlMap.set("场馆预约预订", "https://wxaurl.cn/TKJtXrOUT1o");
+    reserveUrlMap.set("全毅体育", "https://wxaurl.cn/G3jg3BTFg3l");
+    reserveUrlMap.set("TennisBox网球训练房", "https://wxaurl.cn/kfpKaGThg6l");
+    reserveUrlMap.set("青立方运动中心", "https://wxaurl.cn/wClR6NdL49g");
+    reserveUrlMap.set("金高体育", "");
+    reserveUrlMap.set("极网体育", "https://wxaurl.cn/dJ1ftZBJ96n");
+    reserveUrlMap.set("跃测网球", "https://wxaurl.cn/DhjD3Ve8hgr");
+    reserveUrlMap.set("辣飞运动", "https://wxaurl.cn/FyynLARslNd");
+    reserveUrlMap.set("同心云", "");
+    reserveUrlMap.set("交我办", "");
+
     app = createApp({
         data() {
             return {
@@ -634,11 +672,19 @@
                         if (poi.StadiumTel != "") {
                             title += '<p class="post-category post-category-red">电话</p> ' + poi.StadiumTel + ' '
                         }
+                        let isShowReservationBtn = false
+                        let reservationUrl = ""
                         if (poi.ReservationPlatform != "") {
                             title += '<p class="post-category post-category-red">预订方式</p> ';
                             let vals = poi.ReservationPlatform.split(",");
                             for (let i = 0; i < vals.length; i++) {
                                 title += ('<el-tag size="small">' + vals[i] + '</el-tag>');
+                                if (isShowReservationBtn === false && reserveUrlMap.has(vals[i])) {
+                                    if (reserveUrlMap.get(vals[i]) !== "") {
+                                        reservationUrl = reserveUrlMap.get(vals[i])
+                                        isShowReservationBtn = true
+                                    }
+                                }
                             }
                             title += ' ';
                         }
@@ -661,8 +707,8 @@
                         title += `
                           <el-divider v-if="` + isShowBtn + `"/>
                           <el-button type="primary" size="small" @click="change" v-if="` + isShowBtn + `">查看可订场地</el-button>
-                          <el-button type="primary" size="small" v-if="` + isShowBtn + `">
-                            <a href="https://wxaurl.cn/hTEDKSSRuCv" target="_blank" style="color:#fff; text-decoration: none">打开韵动吧</a>
+                          <el-button type="primary" size="small" v-if="` + isShowReservationBtn + `">
+                            <a href="` + reservationUrl + `" target="_blank" style="color:#fff; text-decoration: none">打开订场小程序</a>
                           </el-button>
                           <div style="position: relative;overflow: hidden;">
                             <el-dialog
@@ -711,7 +757,7 @@
                                     navigator.clipboard.writeText(copyText.textContent);
                                 },
                                 addComment() {
-                                    emitter.emit('openCommentModal', {res:"我是儿子的消息"}); // 触发事件总线事件
+                                    emitter.emit('openCommentModal', {res: "我是儿子的消息"}); // 触发事件总线事件
                                 },
                             }
                         }, data)
