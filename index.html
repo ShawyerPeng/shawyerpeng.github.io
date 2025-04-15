@@ -251,7 +251,7 @@
 
     <div id="popup">
         <el-dialog
-            v-model="searchDialogVisible" :before-close="handleClose">
+            v-model="searchDialogVisible" :before-close="handleClose" width="300">
             实时搜索可订场地
             <el-form :model="searchForm" :rules="searchFormRules" ref="searchForm" @submit.prevent label-width="auto" style="max-width: 200px">
                 <el-form-item label="订场日期" prop="date" required>
