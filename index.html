@@ -36,6 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/element-plus/dist/index.full.js"></script>
+    <script src="https://unpkg.com/element-plus/dist/locale/zh-cn"></script>
     <script src="https://cdn.jsdelivr.net/npm/mitt/dist/mitt.umd.js"></script>
 
 
@@ -130,7 +131,7 @@
 
         p {
             display: inline-block;
-            height: 10px;
+            /* height: 10px; */
         }
 
         .easy-button-button {
@@ -162,20 +163,161 @@
             background-size: 50% !important;
         }
     </style>
+
+    <style>
+    body {
+      text-align: center;
+    }
+    /* button {
+      width: 100px;
+      height: 30px;
+    } */
+    #popup {
+      display: none;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: fixed;
+      z-index: 999999;
+      background-color: rgba(50, 50, 50, 0.9);
+    }
+    #form {
+      position: absolute;
+      background-color: #f5f5f5;
+      border: 1px solid #212121;
+      border-radius: 2px;
+      padding: 20px;
+      width: 300px;
+      left: 50%;
+      top: 10%;
+      margin-left: -150px;
+    }
+    input {
+      width: 250px;
+      margin-bottom: 20px;
+    }
+    #close {
+      position: absolute;
+      font-weight: bold;
+      margin-left: 139px;
+      margin-top: -19px;
+      width: 30px;
+      height: 27px;
+    }
+    p1 {
+      float: left;
+      margin-left: 30px;
+    }
+    .cont {
+      /* background-color: #e3f2fd; */
+      border-radius: 2px;
+      padding: 2px 5px;
+      width: 350px;
+      margin: 10px auto 10px auto;
+      text-align: left;
+      overflow: auto;
+      z-index: 999999;
+    }
+    #add {
+      margin: 10px;
+    }
+    </style>
+    <style>
+    .infinite-list {
+        /* height: 1000px; */
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+    .infinite-list-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* height: 50px; */
+        background: var(--el-color-primary-light-9);
+        margin: 10px;
+        color: var(--el-color-primary);
+    }
+    .infinite-list .infinite-list-item + .list-item {
+        margin-top: 10px;
+    }
+    </style>
 </head>
 
 <body>
 <div id="app" class="container">
     <el-container v-loading.fullscreen.lock="loading" :element-loading-text="loadingContent"></el-container>
 
+    <div id="popup">
+        <el-dialog
+            v-model="searchDialogVisible" :before-close="handleClose">
+            实时搜索可订场地
+            <el-form :model="searchForm" :rules="searchFormRules" ref="searchForm" @submit.prevent label-width="auto" style="max-width: 200px">
+                <el-form-item label="订场日期" prop="date" required>
+                    <el-date-picker v-model="searchForm.date" type="date" :teleported="false"/>
+                </el-form-item>
+                <el-form-item label="订场时长" prop="continues_hour">
+                    <el-input-number v-model="searchForm.continuesHour" placeholder="小时" :min="1" :max="10" />
+                </el-form-item>
+                <el-form-item label="最早开始" required>
+                    <el-time-select
+                    v-model="searchForm.startTime"
+                    :max-time="searchForm.endTime"
+                    :teleported="false"
+                    start="06:00"
+                    step="01:00"
+                    end="24:00"
+                    />
+                </el-form-item>
+                <el-form-item label="最晚结束" required>
+                    <el-time-select
+                    v-model="searchForm.endTime"
+                    :min-time="searchForm.startTime"
+                    :teleported="false"
+                    start="06:00"
+                    step="01:00"
+                    end="24:00"
+                    />
+                </el-form-item>
+                <el-form-item label="场馆类型" prop="stadium_types">
+                    <el-select v-model="searchForm.stadiumTypes" multiple collapse-tags placeholder="请选择" :teleported="false">
+                        <el-option v-for="(item, index) in stadiumTypes"
+                            :key="index"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="场地类型" prop="court_types">
+                    <el-select v-model="searchForm.courtTypes" multiple collapse-tags placeholder="请选择" :teleported="false">
+                        <el-option v-for="(item, index) in courtTypes"
+                            :key="index"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <!-- <el-form-item label="搜索位置" prop="address">
+                    <el-input v-model="searchForm.address" placeholder="尽量精确xx市xx区xx地点" :autosize="{ minRows: 1, maxRows: 3 }" />
+                </el-form-item> -->
+                <!-- <el-form-item label="球场名称" prop="name">
+                    <el-input v-model="searchForm.name" />
+                </el-form-item> -->
+                <el-form-item>
+                    <el-button type="primary" @click="submitSearchForm('searchForm')" id="search">提交</el-button>
+                    <el-button @click="cancelSubmit('searchForm')">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+    </div>
+
     <div id="map" class="sidebar-map"></div>
 </div>
 
 <script>
-    const {createApp, ref, defineCustomElement} = Vue
-
-    const sharedData = {dialogVisible: false}
-
+    const { createApp, ref, toRaw, reactive, defineCustomElement } = Vue
+    const { FormRules } = ElementPlus
     const emitter = window.mitt()
 
     const reserveUrlMap = new Map();
@@ -243,14 +385,68 @@
                 dialogVisible: false,
                 map: null,
                 markers: [],
-                buttonText: 'Zoom In', // skal bruge ellers skifter den ikke navn
+                buttonText: 'Zoom In',
                 animalFilter: '',
                 loading: true,
                 loadingContent: "地图加载中，请稍后",
+                searchControl: null,
                 image: null,
-                showCommentModal: false,
-                commentAuthor: '',
-                commentText: ''
+                commentDialogVisible: false,
+                searchDialogVisible: false,
+                commentForm: {
+                    stadiumId: 0,
+                    name: '',
+                    comment: '',
+                    inputTags: [],
+                    rate: null,
+                },
+                searchForm: {
+                    date: '',
+                    address: '',
+                    name: '',
+                    stadiumTypes: [],
+                    courtTypes: [],
+                    continuesHour: 0,
+                    startTime: '06:00',
+                    endTime: '23:00',
+                },
+                searchFormRules: {
+                    date: [
+                        { required: true, type: 'date', message: '请输入订场日期', trigger: 'change' },
+                    ],
+                },
+                stadiumTypes: [
+                    {
+                        value: 1,
+                        label: '室内',
+                    },
+                    {
+                        value: 2,
+                        label: '室外',
+                    },
+                    {
+                        value: 3,
+                        label: '半室内',
+                    }
+                ],
+                courtTypes: [
+                    {
+                        value: 1,
+                        label: '硬地',
+                    },
+                    {
+                        value: 2,
+                        label: '红土',
+                    },
+                    {
+                        value: 3,
+                        label: '草地',
+                    },
+                    {
+                        value: 4,
+                        label: '人造草地',
+                    }
+                ],
             };
         },
         mounted() {
@@ -272,6 +468,76 @@
             }).setMinZoom(3)
                 .setMaxZoom(19)
                 .setView([31.23, 121.47], 12);
+
+            // 重新Tooltip和L.Popup 的扩展方法（这个需要在你定义地图后重写，位置自己看着放）
+            if (map) {
+                // 添加 Tooltip 的扩展方法
+                // L.Tooltip.include({
+                //   _animateZoom(e: any) {
+                //     console.log("Tooltip", this, this._map);
+                //     if (this._map) {
+                //       console.log("添加 Tooltip 的扩展方法 :>> ", this._map);
+                //       const pos = this._map._latLngToNewLayerPoint(
+                //         this._latlng,
+                //         e.zoom,
+                //         e.center
+                //       );
+                //       this._setPosition(pos);
+                //     } else {
+                //       return;
+                //     }
+                //   },
+                // });
+                L.Tooltip.prototype._animateZoom = function (e) {
+                if (!this._map) {
+                    return;
+                }
+                let pos = this._map._latLngToNewLayerPoint(
+                    this._latlng,
+                    e.zoom,
+                    e.center
+                );
+                this._setPosition(pos);
+                };
+
+                L.Tooltip.prototype._updatePosition = function () {
+                if (!this._map) {
+                    return;
+                }
+                let pos = this._map.latLngToLayerPoint(this._latlng);
+                this._setPosition(pos);
+                };
+
+                // 添加 Popup 的扩展方法
+                L.Popup.include({
+                _animateZoom(e) {
+                    console.log("Popup", this._map);
+                    if (this._map) {
+                    const pos = this._map._latLngToNewLayerPoint(
+                        this._latlng,
+                        e.zoom,
+                        e.center
+                    );
+                    const anchor = this._getAnchor();
+                    L.DomUtil.setPosition(this._container, pos.add(anchor));
+                    } else {
+                    return;
+                    }
+                },
+                });
+                // 添加 Marker 的扩展方法
+                // L.Marker.include({
+                //   _animateZoom(opt: any) {
+                //     console.log("Marker", this._map);
+                //     if (this._map) {
+                //       const pos = this._map
+                //         ._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center)
+                //         .round();
+                //       this._setPos(pos);
+                //     }
+                //   },
+                // });
+            }
 
             this.map = map;
 
@@ -335,6 +601,11 @@
                 locateOptions: {
                     enableHighAccuracy: true
                 }
+            }).addTo(map);
+
+            // 添加场馆实时搜索插件
+            L.easyButton('fa-globe', this.onlineSearchBtnClick, 'search', {
+                position: 'topright'
             }).addTo(map);
 
             // 全屏插件
@@ -465,7 +736,10 @@
                 });
 
                 if (mapInfo.mapPois.length > 1) {
-                    map.fitBounds(this.getMapInfoBounds(), {padding: [50, 50]});
+                    bounds = this.getMapInfoBounds();
+                    if (bounds.length > 0) {
+                        map.fitBounds(bounds, {padding: [50, 50]});
+                    }
                 } else if (mapInfo.mapPois.length == 1) {
                     map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
                 }
@@ -478,6 +752,11 @@
                 // 展示所有路线
                 this.showAllArea(map);
 
+                // 先清空
+                if (this.searchControl) {
+                    map.removeControl(this.searchControl);
+                }
+                // 再重新添加
                 var searchControl = new L.Control.Search({
                     position: 'topright',
                     layer: markers,
@@ -499,6 +778,7 @@
 
                 // searchControl.addTo(map);
                 map.addControl(searchControl);
+                this.searchControl = searchControl;
             },
 
             getMapInfoBounds() {
@@ -761,7 +1041,9 @@
                                 },
                             }
                         }, data)
-                        vm.use(ElementPlus).mount('#my_popup_' + m.stadiumId);
+                        vm.use(ElementPlus, {
+                            locale: ElementPlusLocaleZhCn,
+                        }).mount('#my_popup_' + m.stadiumId);
                     })
 
                     // 弹窗关闭时，一定需要销毁vue实例！非常重要！
@@ -776,16 +1058,16 @@
                         direction: 'top',
                         offset: [0, -24],
                         className: 'my-marker'
-                    })
-                        .openTooltip();
+                    }).openTooltip();
 
                     this.markers.push(marker);
-                    marker.addTo(map);
+                    marker.addTo(toRaw(markers));
 
-                    markers.addLayer(marker);
+                    // markers.addLayer(marker);
                 }
+                markers.addTo(toRaw(map));
 
-                return markers
+                return markers;
             },
 
             // 获取一条路线的 latlngs
@@ -926,10 +1208,162 @@
                 this.closeCommentModal(); // 关闭模态框
                 this.commentAuthor = ''; // 清空输入
                 this.commentText = ''; // 清空输入
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            handleClose: function (done) {
+                this.closeForm();
+                done();
+            },
+            closeForm() {
+                this.searchDialogVisible = false;
+                document.getElementById("popup").style.display = "none";
+            },
+            submitSearchForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.loading = true;
+                        this.search();
+                        this.cancelSubmit('searchForm');
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            cancelSubmit(formName) {
+                this.closeForm();
+                this.resetForm(formName);
+            },
+
+            onlineSearchBtnClick: function(btn, map) {
+                document.getElementById("popup").style.display = "block";
+                this.searchDialogVisible = true;
+            },
+            search() {
+                const postData = {
+                    "date_start": this.formatDate(this.searchForm.date),
+                    "date_end": this.formatDate(this.searchForm.date),
+                    "lng": "121.5430645073785",
+                    "lat": "31.32092013888889",
+                    "hour_filter_start": parseInt(this.searchForm.startTime.substring(0, 2)),
+                    "hour_filter_end": parseInt(this.searchForm.endTime.substring(0, 2)),
+                    "filter_continues_hour": this.searchForm.continuesHour,
+                    "stadium_types": this.searchForm.stadiumTypes,
+                    "court_types": this.searchForm.courtTypes,
+                    "stadium_keyword": this.searchForm.name,
+                    "search_type": 0
+                };
+                console.log(postData)
+
+                fetch('https://shawyerpeng.cn:8888/labor/api/sports8/list', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Origin': 'github.com',
+                    },
+                    body: JSON.stringify(postData)  // 将JavaScript对象转换为JSON字符串发送
+                }).then(response => {
+                    if (!response.ok) {
+                        this.loading = false;
+                        throw new Error('网络请求失败，状态码：' + response.status);
+                    }
+                    return response.json();
+                }).then(data => {
+                    // console.log('POST请求成功，返回的数据：', data);
+                    console.log(this.map);
+                    let foundGroup;
+                    this.map.eachLayer((layer) => {
+                        if (layer instanceof L.LayerGroup) {
+                            foundGroup = layer;
+                        }
+                    });
+                    console.log(foundGroup);
+                    foundGroup.clearLayers();
+                    // this.map.eachLayer((layer) => {
+                    //     myGroup.clearLayers();
+                    //     this.map.removeLayer(layer);
+                    // });
+                    var idx = 0;
+                    // 先清空
+                    this.mapInfo.mapPois = [];
+                    for (var i = 0; i < data.data.length; i++) {
+                        tmp = data.data[i]
+                        if (tmp.LngLat == '0,0') {
+                            continue
+                        }
+                        this.mapInfo.mapPois[idx++] = {
+                            poi: {
+                                id: tmp.StadiumId,
+                                title: tmp.StadiumName,
+                                Status: tmp.Status,
+                                lng: parseFloat(tmp.LngLat.split(',')[0]),
+                                lat: parseFloat(tmp.LngLat.split(',')[1]),
+                                Address: tmp.Address,
+                                ImgUrl: tmp.ImgUrl,
+                                ImgUrls: tmp.ImgUrls,
+                                StadiumType: tmp.StadiumType,
+                                CourtType: tmp.CourtType,
+                                SportsType: tmp.SportsType,
+                                StadiumBizType: tmp.StadiumBizType,
+                                Level: tmp.Level,
+                                StadiumTel: tmp.StadiumTel,
+                                ReservationPlatform: tmp.ReservationPlatform,
+                                CountyName: tmp.CountyName,
+                                Detail: tmp.Detail,
+                                FacilityInfos: tmp.FacilityInfos,
+                                MinPrice: tmp.MinPrice,
+                                BookableMaxDate: tmp.BookableMaxDate,
+                                ShowHour: tmp.ShowHour,
+                                ShowHourDesc: tmp.ShowHourDesc,
+                                CourtsNum: tmp.CourtsNum,
+                            }
+                        }
+                    }
+                    this.showMap(this.map);
+                    // allMarkers = this.markers;
+                    // var keepIds = []
+                    // for (var i = 0; i < data.data.length; i++) {
+                    //     tmp = data.data[i];
+                    //     keepIds.push(tmp.StadiumId);
+                    // }
+                    // for (var i = 0; i < allMarkers.length; i++) {
+                    //     marker = allMarkers[i];
+                    //     if (!keepIds.includes(marker.stadiumId)) {
+                    //         marker.closeTooltip(); // 显式关闭Tooltip
+                    //         marker.setOpacity(0); // 隐藏标记点
+                    //         // 若标记使用了阴影
+                    //         if (marker.getIcon().options.shadow) {
+                    //             marker.setIcon(
+                    //                 L.icon({
+                    //                     ...marker.getIcon().options,
+                    //                     shadowUrl: 'transparent-shadow.png' // 替换为透明图片
+                    //                 })
+                    //             );
+                    //         }
+                    //     } else {
+                    //         marker.openTooltip();
+                    //         marker.setOpacity(1);
+                    //     }
+                    // }
+                    this.loading = false;
+                }).catch(error => {
+                    console.error('POST请求出错：', error);
+                    this.loading = false;
+                });
+            },
+            formatDate(date) {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始
+                const day = date.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
             }
         }
     });
-    app.use(ElementPlus);
+    app.use(ElementPlus, {
+        locale: ElementPlusLocaleZhCn,
+    });
     app.mount('#app')
 </script>
 
