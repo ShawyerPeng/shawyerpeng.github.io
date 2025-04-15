@@ -683,7 +683,7 @@
                             }
                         }
                     }
-                    this.showMap(map);
+                    this.showMap(map, true);
                     this.loading = false;
                 }).catch(error => {
                     console.error('POST请求出错：', error);
@@ -722,12 +722,12 @@
                             }
                         }
                     }
-                    this.showMap(map);
+                    this.showMap(map, true);
                     this.loading = false;
                 });
             },
 
-            showMap(map) {
+            showMap(map, firstInit) {
                 mapInfo = this.mapInfo;
                 var markerIcon = L.icon({
                     iconUrl: "icon/marker.png",
@@ -735,13 +735,16 @@
                     iconAnchor: [12, 22],
                 });
 
-                if (mapInfo.mapPois.length > 1) {
-                    bounds = this.getMapInfoBounds();
-                    if (bounds.length > 0) {
-                        map.fitBounds(bounds, {padding: [50, 50]});
+                // 只有第一次初始化的时候需要设置view大小
+                if (firstInit) {
+                    if (mapInfo.mapPois.length > 1) {
+                        bounds = this.getMapInfoBounds();
+                        if (bounds.length > 0) {
+                            map.fitBounds(bounds, {padding: [50, 50]});
+                        }
+                    } else if (mapInfo.mapPois.length == 1) {
+                        map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
                     }
-                } else if (mapInfo.mapPois.length == 1) {
-                    map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
                 }
 
                 markers = this.showAllPoiMarker(map, markerIcon);
@@ -1321,7 +1324,7 @@
                             }
                         }
                     }
-                    this.showMap(this.map);
+                    this.showMap(this.map, false);
                     // allMarkers = this.markers;
                     // var keepIds = []
                     // for (var i = 0; i < data.data.length; i++) {
