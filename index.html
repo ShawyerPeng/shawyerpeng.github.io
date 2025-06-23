@@ -566,6 +566,14 @@
                 filterOnEveryClick: true
             }).addTo(map);
 
+            var tennisFilterButton4 = L.control.tagFilterButton({
+                data: ['私有经营', '公共体育场馆', '小区', '学校', '酒店', '公园', '单位'],
+                // icon: '<i class="fa-solid fa-table-tennis-paddle-ball"></i>',
+                icon: '<img src="building.png">',
+                clearText: "重置",
+                filterOnEveryClick: true,
+            }).addTo(map);
+
             var tennisFilterButton3 = L.control.tagFilterButton({
                 data: ['硬地', '红土', '草地', '人造草地'],
                 icon: '<img src="grass-court.png">',
@@ -591,6 +599,7 @@
 
             tennisFilterButton1.addToReleated(tennisFilterButton2);
             tennisFilterButton1.addToReleated(tennisFilterButton3);
+            tennisFilterButton1.addToReleated(tennisFilterButton4);
             tennisFilterButton1.addToReleated(facilityFilterButton);
 
             // 定位插件
@@ -831,6 +840,7 @@
                         tags[1] = '室外'
                     }
 
+                    tags.push(poi.StadiumBizType)
                     tags.push(poi.CourtType)
 
                     const sportsType = poi.SportsType.split('+')
