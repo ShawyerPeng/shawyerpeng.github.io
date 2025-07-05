@@ -68,6 +68,54 @@
             font-size: 12px;
         }
 
+        .my-marker-blue {
+            background-color: #6495ED;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .my-marker-green {
+            background-color: #2E8B57;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .my-marker-red {
+            background-color: #CC3333;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .my-marker-cadetblue {
+            background-color: #339999;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .my-marker-powderblue {
+            background-color: #00CED1;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .my-marker-crimson {
+            background-color: #DC143C;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
         .line-arrow {
             font: bold 5px sans-serif;
         }
@@ -1066,11 +1114,25 @@
 
                     rootTitle = '<div id="my_popup_' + markerId + '"></div>'
                     marker.bindPopup(rootTitle, {offset: [0, -24]});
+                    markerClassName = 'my-marker';
+                    if (poi.StadiumBizType == '公共体育场馆') {
+                        markerClassName = 'my-marker-crimson'
+                    } else if (poi.StadiumBizType == '小区') {
+                        markerClassName = 'my-marker-cadetblue'
+                    } else if (poi.StadiumBizType == '学校') {
+                        markerClassName = 'my-marker-blue'
+                    } else if (poi.StadiumBizType == '公园') {
+                        markerClassName = 'my-marker-green'
+                    } else if (poi.StadiumBizType == '酒店') {
+                        markerClassName = 'my-marker'
+                    } else if (poi.StadiumBizType == '单位') {
+                        markerClassName = 'my-marker-crimson'
+                    }
                     marker.bindTooltip(poi.title, {
                         permanent: true,
                         direction: 'top',
                         offset: [0, -24],
-                        className: 'my-marker'
+                        className: markerClassName
                     }).openTooltip();
 
                     this.markers.push(marker);
