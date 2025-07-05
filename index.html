@@ -515,7 +515,7 @@
                 tapHold: false,
             }).setMinZoom(3)
                 .setMaxZoom(19)
-                .setView([31.23, 121.47], 12);
+                .setView([31.23, 121.47], 14);
 
             // 重新Tooltip和L.Popup 的扩展方法（这个需要在你定义地图后重写，位置自己看着放）
             if (map) {
@@ -793,16 +793,16 @@
                 });
 
                 // 只有第一次初始化的时候需要设置view大小
-                if (firstInit) {
-                    if (mapInfo.mapPois.length > 1) {
-                        bounds = this.getMapInfoBounds();
-                        if (bounds.length > 0) {
-                            map.fitBounds(bounds, {padding: [50, 50]});
-                        }
-                    } else if (mapInfo.mapPois.length == 1) {
-                        map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
-                    }
-                }
+                // if (firstInit) {
+                //     if (mapInfo.mapPois.length > 1) {
+                //         bounds = this.getMapInfoBounds();
+                //         if (bounds.length > 0) {
+                //             map.fitBounds(bounds, {padding: [50, 50]});
+                //         }
+                //     } else if (mapInfo.mapPois.length == 1) {
+                //         map.setView([mapInfo.mapPois[0].poi.lat, mapInfo.mapPois[0].poi.lng], 13);
+                //     }
+                // }
 
                 markers = this.showAllPoiMarker(map, markerIcon);
 
