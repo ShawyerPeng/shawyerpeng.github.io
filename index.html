@@ -589,11 +589,13 @@
 
             this.map = map;
 
+            map.attributionControl.setPrefix('');
+
             // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             // }).addTo(map);
             L.tileLayer('https://wprd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&style=7&x={x}&y={y}&z={z}', {
-                attribution: '&copy; <a href="https://docs.qq.com/sheet/DV2tMV1hpR3ROb2RO" target="_blank">访问文档版</a> <a href="https://www.coze.cn/s/iyk66wTe/" target="_blank">上海网球场订场神器</a><br>有疑问请联系作者（微信）：shawyerpeng'
+                attribution: '觉得好用就快分享给球友搭子们吧~<br>呼声高的话会继续开发小程序版本<br>疑问联系微信：shawyerpeng <a href="https://www.xiaohongshu.com/user/profile/56192ffc8a75e127d1fb2163" target="_blank">关注小红书</a>'
             }).addTo(map);
 
             // 移除默认右上角的缩放按钮
