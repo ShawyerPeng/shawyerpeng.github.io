@@ -599,6 +599,32 @@
             // 移除默认右上角的缩放按钮
             map.zoomControl.remove();
 
+            var lastZoom;
+            zoomThreshold = 14;
+            map.on('zoomend', function() {
+                var zoom = map.getZoom();
+                if (zoom < zoomThreshold && (!lastZoom || lastZoom >= zoomThreshold)) {
+                    map.eachLayer(function(l) {
+                    if (l.getTooltip) {
+                        var toolTip = l.getTooltip();
+                        if (toolTip) {
+                            map.closeTooltip(toolTip);
+                        }
+                    }
+                    });
+                } else if (zoom >= zoomThreshold && (!lastZoom || lastZoom < zoomThreshold)) {
+                    map.eachLayer(function(l) {
+                    if (l.getTooltip) {
+                        var toolTip = l.getTooltip();
+                        if (toolTip) {
+                            map.addLayer(toolTip);
+                        }
+                    }
+                    });
+                }
+                lastZoom = zoom;
+            })
+
             // 添加缩放控件到地图的右下角
             L.control.zoom({position: 'topright'}).addTo(map);
 
