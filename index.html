@@ -600,7 +600,7 @@
             map.zoomControl.remove();
 
             var lastZoom;
-            zoomThreshold = 14;
+            zoomThreshold = 13;
             map.on('zoomend', function() {
                 var zoom = map.getZoom();
                 if (zoom < zoomThreshold && (!lastZoom || lastZoom >= zoomThreshold)) {
