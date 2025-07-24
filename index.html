@@ -301,7 +301,7 @@
             实时搜索可订场地
             <el-form :model="searchForm" :rules="searchFormRules" ref="searchForm" @submit.prevent label-width="auto" style="max-width: 200px">
                 <el-form-item label="订场日期" prop="date" required>
-                    <el-date-picker v-model="searchForm.date" type="date" :teleported="false"/>
+                    <el-date-picker v-model="searchForm.date" type="date" :editable="false" :teleported="false"/>
                 </el-form-item>
                 <el-form-item label="订场时长" prop="continues_hour">
                     <el-input-number v-model="searchForm.continuesHour" placeholder="小时" :min="1" :max="10" />
@@ -314,6 +314,7 @@
                     start="06:00"
                     step="01:00"
                     end="24:00"
+                    :editable="false"
                     />
                 </el-form-item>
                 <el-form-item label="最晚结束" required>
@@ -324,6 +325,7 @@
                     start="06:00"
                     step="01:00"
                     end="24:00"
+                    :editable="false"
                     />
                 </el-form-item>
                 <el-form-item label="场馆类型" prop="stadium_types">
