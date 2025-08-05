@@ -512,7 +512,11 @@
 
             // 创建地图
             var map = L.map('map', {
-                tapHold: false,
+                tapHold: true,
+                dragPan: true,
+                touchZoom: true,
+                markerZoomAnimation: false,
+                zoomSnap: 0.5,
             }).setMinZoom(3)
                 .setMaxZoom(19)
                 .setView([31.23, 121.47], 14);
